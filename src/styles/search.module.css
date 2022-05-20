@@ -53,7 +53,7 @@
     display: flex;
     justify-content: right;
     column-gap: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 .top{
     flex: 0.9;

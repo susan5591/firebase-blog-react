@@ -20,7 +20,9 @@ const Search = ({data}) => {
                                     <img src={item.imageUrl?item.imageUrl:user} alt="image"/>
                                 </div>
                                 <h3>{item.title}</h3>
-                                <p>{item.description}</p>
+                                <p>
+                                    {item.description.length>200?item.description.substring(0,200)+"...":item.description}
+                                </p>
                             </div>
                             <div className={styles.buttons}>
                                 <button className={styles.delete} onClick={()=>setModal(true)}>Delete</button>
