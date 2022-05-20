@@ -16,7 +16,6 @@
     width: 90%;
     display: flex;
     flex-wrap: wrap;  
-    justify-content: space-between;
     overflow: hidden;
     row-gap: 2rem;
 }
@@ -31,6 +30,9 @@
 .cardContent {
     margin: auto;
     width: 95%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .card div img{
@@ -44,4 +46,30 @@
 
 .images{
     margin-top: 1rem;
+}
+
+.buttons{
+    flex: 0.1;
+    display: flex;
+    justify-content: right;
+    column-gap: 2rem;
+    margin-bottom: 1rem;
+}
+.top{
+    flex: 0.9;
+}
+
+.buttons button{
+    font-size:1.3rem;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border-color: transparent;
+}
+
+.delete{
+    background-color: rgb(244, 43, 43);
+}
+
+.details{
+    background-color: rgb(24, 185, 24);
 }

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import styles from '../styles/search.module.css'
+import user from '../user.jpg'
 
 const Search = ({data}) => {
     const {datas,search,setSearch,setModal} = data
@@ -14,14 +15,18 @@ const Search = ({data}) => {
                 {search?result.map((item)=>{
                     return <div key={item.id} className={styles.card}>
                         <div className={styles.cardContent}>
-                            <div className={styles.images}>
-                                <img src={item.imageUrl} alt="image"/>
+                            <div className={styles.top}>
+                                <div className={styles.images}>
+                                    <img src={item.imageUrl?item.imageUrl:user} alt="image"/>
+                                </div>
+                                <h3>{item.title}</h3>
+                                <p>{item.description}</p>
                             </div>
-                            <h3>{item.title}</h3>
-                            <p>{item.description}</p>
+                            <div className={styles.buttons}>
+                                <button className={styles.delete} onClick={()=>setModal(true)}>Delete</button>
+                                <button className={styles.details}>Details</button>
+                            </div>
                         </div>
-                        <button onClick={()=>setModal(true)}>Delete</button>
-                        <button >Details</button>
                     </div>
                 }):''}
             </div>

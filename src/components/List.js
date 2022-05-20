@@ -8,12 +8,12 @@ import Modal from './Modal'
 const List = () => {
   const {datas}= useContext(AppProvider)
   const [search,setSearch] = useState('')
-  const [modal,setModal] = useState(true)
+  const [modal,setModal] = useState(false)
   return (
     <div className={styles.listing}>
       <Search data={{datas,search,setSearch,setModal}}/>
       {modal?<Modal modalData={{datas,modal,setModal}}/>:''}
-      
+
     </div>
   )
 }
