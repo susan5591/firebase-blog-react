@@ -1,0 +1,19 @@
+.main{
+    background-color: rgb(20, 159, 205);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.list{
+    display: inline-block;
+}
+.listing{
+    list-style: none;
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 580;
+    padding: 0 1rem;
+}
+.listing a{
+    text-decoration: none;
+}
