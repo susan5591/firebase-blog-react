@@ -10,12 +10,15 @@ const initialState = {
     subTitle:'',
     description:'',
     imageUrl:'',
-    imageNmae:'',
+    imageName:'',
     uploadedTime:''
 }
 
 const AppContext = ({children}) =>{
     const [datas,setDatas] = useState([])
+    const [states,setStates] = useState(initialState)
+    const [files,setFiles] = useState(null)
+
     const getData = useCallback(()=>onSnapshot(collection(db, "blog"), (querySnapShot) => {
         let arr = []
         querySnapShot.forEach((doc)=>{
@@ -28,7 +31,7 @@ const AppContext = ({children}) =>{
         getData()
     },[getData])
 
-    return <AppProvider.Provider value={{datas,initialState}}>
+    return <AppProvider.Provider value={{files,setFiles,states,setStates,datas,initialState}}>
         {children}
     </AppProvider.Provider>
 }

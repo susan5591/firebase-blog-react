@@ -1,18 +1,12 @@
 import React,{useContext, useEffect, useState} from 'react'
 import styles from '../styles/form.module.css'
 import { AppProvider } from '../context'
-// import {getDownloadURL,ref, uploadBytesResumable} from 'firebase/storage'
-// import { storage } from '../config'
-// import { addDoc, collection } from 'firebase/firestore'
-// import { db } from '../config'
 import {upload} from './upload'
 import { useNavigate } from 'react-router-dom'
 
 const Form = () => {
   const navigate = useNavigate()
-  const {initialState}= useContext(AppProvider)
-  const [states,setStates] = useState(initialState)
-  const [files,setFiles] = useState(null)
+  const {initialState,states,setStates,files,setFiles}= useContext(AppProvider)
   const [success,setSuccess] = useState(false)
 
   //for date

@@ -22,7 +22,7 @@ export const upload=(files,states,setStates,initialState,setSuccess)=>{
             let data = {
               ...states,
               imageUrl:downloadUrl,
-              imageName:files.name
+              imageName:now
             }
             addDoc(collection(db,'blog'),data)
             .then(()=>setSuccess(true))
