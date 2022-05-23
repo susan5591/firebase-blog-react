@@ -11,11 +11,15 @@ const Modal = ({modalData}) => {
   const deleteRef = ref(storage,`blog/${file.imageName}`)
 
   const handleDelete =async(id)=>{
-    // await deleteObject(deleteRef)
-    // await deleteDoc(doc(db,"blog",id))
-    deleteObject(deleteRef)
-      .then(()=>deleteDoc(doc(db,"blog",id))
+    if(file.imageName){
+      deleteObject(deleteRef)
+        .then(()=>deleteDoc(doc(db,"blog",id))
         .then(()=>console.log("deleted both")))
+    }else{
+      deleteDoc(doc(db,"blog",id))
+      .then(()=>console.log("deleted data"))
+      .catch(()=>console.log("don't know the error"))
+    }
     setModal({state:false,id})
   }
   const handleState=()=>{

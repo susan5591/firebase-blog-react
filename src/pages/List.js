@@ -9,7 +9,7 @@ const List = () => {
   const {state,dispatch}= useContext(AppProvider)
   const [search,setSearch] = useState('')
   const [modal,setModal] = useState({state:false,id:''})
-  console.log(modal)
+
   return (
     <div className={styles.listing}>
       <Search data={{state,search,setSearch,setModal}}/>

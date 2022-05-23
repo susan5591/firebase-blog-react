@@ -21,10 +21,9 @@ const reducer = (state,action)=>{
         case type.HANDLE_SUBMIT:{
             return{
                 ...state,
-                data:{
-                    ...state.data,
-
-                }
+                data:action.payload.initialState,
+                files:action.payload.null,
+                edit:false
             }
         }
 
@@ -37,14 +36,6 @@ const reducer = (state,action)=>{
                     id:action.payload.id
                 }
             }
-
-        case type.SUBMIT_FILE:{
-            return{
-                ...state,
-                data:action.payload.initialState,
-                files:null
-            }
-        }
         
         case type.HANDLE_UPDATE:
             return{

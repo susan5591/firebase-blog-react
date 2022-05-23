@@ -18,7 +18,6 @@ const initialState = {
   },
   id:'',
   edit:false,
-  files:null,
   retrieveData:[]
 };
 
