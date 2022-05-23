@@ -10,7 +10,7 @@ import { storage } from '../config'
 const Form = () => {
   const navigate = useNavigate()
   const {state,dispatch,initialState}= useContext(AppProvider)
-  const [success,setSuccess] = useState(false)
+  // const [success,setSuccess] = useState(false)
   const [files,setFiles] = useState(null)
   const [delmg,setDelmg] = useState('')
 
@@ -38,7 +38,7 @@ const Form = () => {
       .then(()=>setDelmg(''),console.log("Deleted"))
       .catch((err)=>console.log(err))
     }
-    upload(state,dispatch,setSuccess,files)
+    upload(state,dispatch,files,navigate)
     dispatch({type:HANDLE_SUBMIT,payload:{initialState,files:null}})
   }
 
@@ -46,11 +46,7 @@ const Form = () => {
     if(state.edit){
       setDelmg(state.data.imageName)
     }
-    if(success){
-      navigate('/list')
-      setSuccess(false)
-    }
-  },[success,state.edit])
+  },[state.edit])
 
   console.log(delmg)
 

@@ -4,7 +4,7 @@ import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../config'
 import { UPDATE_DOC } from './ActionType'
 
-export const upload=(state,dispatch,setSuccess,files)=>{
+export const upload=(state,dispatch,files,navigate)=>{
   const date= new Date()
   const now = date.getTime()
   if(files){
@@ -27,13 +27,13 @@ export const upload=(state,dispatch,setSuccess,files)=>{
             }
             if(!state.edit){
               addDoc(collection(db,'blog'),data)
-              .then(()=>setSuccess(true))
+              .then(()=>{navigate('/list')})
               .catch(()=>console.log("Error While Uploading."))
             }else{
               setDoc(doc(db,"blog",state.id),data)
               .then(()=>(
                 dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),
-                setSuccess(true))
+                navigate('/list'))
               )
               .catch(()=>console.log("Error While Updating."))
             }
@@ -42,14 +42,22 @@ export const upload=(state,dispatch,setSuccess,files)=>{
       )
     }else{
       if(!state.edit){
-        addDoc(collection(db,'blog'),state.data)
-        .then(()=>setSuccess(true))
+        addDoc(collection(db,'blog'),{
+          ...state.data,
+          imageUrl:'',
+          imageName:''
+        })
+        .then(()=>navigate('/list'))
         .catch(()=>console.log("Error While Uploading."))
       }else{
-        setDoc(doc(db,"blog",state.id),state.data)
+        setDoc(doc(db,"blog",state.id),{
+          ...state.data,
+          imageUrl:'',
+          imageName:''
+        })
         .then(()=>(
           dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),
-          setSuccess(true))
+          navigate('/list'))
         )
         .catch(()=>console.log("Error While Updating."))
       }

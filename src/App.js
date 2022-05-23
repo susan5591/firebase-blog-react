@@ -3,6 +3,7 @@ import Navbar from './pages/Navbar';
 import Form from './pages/Form';
 import List from './pages/List';
 import Details from './pages/Details';
+import './app.css'
 
 function App() {
   return (
