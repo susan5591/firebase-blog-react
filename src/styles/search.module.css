@@ -20,3 +20,18 @@
     row-gap: 2rem;
 }
 
+.paginate{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    column-gap: 2rem;
+}
+.paginate button{
+    font-size: 1.4rem;
+    padding: 5px 15px;
+    background-color: rgb(42, 143, 220);
+    border-color: transparent;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 0 20px gray;
+}

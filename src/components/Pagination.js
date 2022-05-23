@@ -23,8 +23,10 @@ const Pagination = ({setModal}) => {
                         return <Card item={item} setModal={setModal} key={item.id}/>
                 })}                
             </div>
-            {page===0?'':<button onClick={()=>setPage(page-1)}>Previous</button>}
-            {page===arr.length-1?'':<button onClick={()=>setPage(page+1)}>next</button>}
+            <div className={styles.paginate}>
+                {page===0?'':<button onClick={()=>setPage(page-1)}>Previous</button>}
+                {page===arr.length-1?'':<button onClick={()=>setPage(page+1)}>next</button>}
+            </div>
         </div>
     )
 }
