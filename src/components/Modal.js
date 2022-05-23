@@ -3,6 +3,7 @@ import styles from '../styles/modal.module.css'
 import {doc,deleteDoc} from "firebase/firestore"
 import { db, storage} from '../config'
 import { deleteObject, ref } from 'firebase/storage'
+import {ImCross} from 'react-icons/im'
 
 const Modal = ({modalData}) => {
   const {modal,setModal,state} = modalData
@@ -28,6 +29,7 @@ const Modal = ({modalData}) => {
   return (
     <div className={styles.modal} onClick={handleState}>
       <div className={styles.text} onClick={(e) => e.stopPropagation()}>
+        <ImCross className={styles.cross} onClick={handleState}/>
         <p className={styles.confirm}> Do you really want to delete this item?</p>
         <button onClick={()=>handleDelete(modal.id)}>Confirm</button>
       </div>

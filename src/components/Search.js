@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import styles from '../styles/search.module.css'
 import Card from './Card'
+import {FaSearch} from 'react-icons/fa'
 
 const Search = ({data}) => {
     const {state,search,setSearch,setModal} = data
@@ -10,6 +11,7 @@ const Search = ({data}) => {
         <div>
             <div className={styles.search}>
                 <input type="text" value={search} onChange={(e)=>setSearch(e.target.value)}/>
+                <FaSearch  className={styles.searchIcon}/>
             </div>
             <div className={styles.result}>
                 {search?result.map((item)=>{

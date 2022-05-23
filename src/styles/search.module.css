@@ -1,14 +1,24 @@
 .search{
-    margin: 2rem 0;
+    width: 35%;
+    margin: 2rem auto;
     text-align: center;
+    position: relative;
+    
 }
-
+.searchIcon{
+    position: absolute;
+    top: 14px;
+    right: 115px;
+    font-size: 1.3rem;
+    color: green;
+}
 .search input{
     line-height: 2rem;
     padding: 5px;
-    width: 25%;
+    width: 70%;
     font-size: 1.5rem;
     border-radius: 10px;
+    border-color: rgb(17, 187, 179);
 }
 
 .result{
@@ -26,12 +36,20 @@
     justify-content: center;
     column-gap: 2rem;
 }
-.paginate button{
+.button{
     font-size: 1.4rem;
     padding: 5px 15px;
-    background-color: rgb(42, 143, 220);
     border-color: transparent;
     font-weight: 600;
     border-radius: 10px;
     box-shadow: 0 0 20px gray;
+    margin-bottom: 3rem;
+}
+.active {
+    background-color: rgb(42, 143, 220);
+}
+
+.passive{
+    background-color: rgba(123, 174, 212, 0.8);
+    
 }

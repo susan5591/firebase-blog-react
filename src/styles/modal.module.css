@@ -29,9 +29,15 @@
 
 .text button{
     font-size: 1.8rem;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.5rem; 
     background-color: red;
     border-radius: 10px;
     border-color: transparent;
     margin-bottom: 1rem;
+}
+
+.cross{
+    position: absolute;
+    right: 25px;
+    font-size: 1.3rem;
 }

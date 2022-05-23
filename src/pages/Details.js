@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppProvider } from '../context'
 import styles from '../styles/details.module.css'
+import user from '../user.jpg'
 
 const Details = () => {
   const {id} = useParams()
@@ -14,7 +15,7 @@ const Details = () => {
         <p>{result.uploadedTime}</p>
       </div>
       <div className={styles.imageSection}>
-        <img src={result.imageUrl} alt='image'/>
+        <img src={result.imageUrl?result.imageUrl:user} alt='image'/>
       </div>
       <div >
         <h1 className={styles.header}>{result.title}</h1>

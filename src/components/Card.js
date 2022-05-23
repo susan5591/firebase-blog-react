@@ -30,8 +30,8 @@ const Card = ({item,setModal}) => {
                     </p>
                 </div>
                 <div className={styles.buttons} onClick={(e)=>e.stopPropagation()}>
-                    <button  className={styles.delete} onClick={()=>setModal({state:true,id:item.id})}>Delete</button>    
                     <button className={styles.details} onClick={()=>handleUpdate(item.id)}>Update</button>
+                    <button  className={styles.delete} onClick={()=>setModal({state:true,id:item.id})}>Delete</button>    
                 </div>
             </div>
         </div>
