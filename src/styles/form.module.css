@@ -47,7 +47,8 @@
 .button{
     background-color: rgb(79, 207, 243);
     border-color: transparent;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
     padding: 0.5rem 0;
     border-radius: 10px;
 }

@@ -1,26 +1,4 @@
-.search{
-    margin: 2rem 0;
-    text-align: center;
-}
-
-.search input{
-    line-height: 2rem;
-    padding: 5px;
-    width: 25%;
-    font-size: 1.5rem;
-    border-radius: 10px;
-}
-
-.result{
-    margin: auto;
-    width: 90%;
-    display: flex;
-    flex-wrap: wrap;  
-    overflow: hidden;
-    row-gap: 2rem;
-}
-
-/* .card{
+.card{
     margin: 1rem;
     width: 30%;
     height: 500px;
@@ -72,4 +50,4 @@
 
 .details{
     background-color: rgb(24, 185, 24);
-} */
+}

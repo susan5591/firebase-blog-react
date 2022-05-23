@@ -1,12 +1,13 @@
 import React,{useContext, useEffect, useState} from 'react'
 import styles from '../styles/form.module.css'
 import { AppProvider } from '../context'
-import {upload} from './upload'
+import {upload} from '../components/upload'
 import { useNavigate } from 'react-router-dom'
+import { HANDLE_CHANGE, SUBMIT_FILE } from '../components/ActionType'
 
 const Form = () => {
   const navigate = useNavigate()
-  const {initialState,states,setStates,files,setFiles}= useContext(AppProvider)
+  const {state,dispatch,initialState}= useContext(AppProvider)
   const [success,setSuccess] = useState(false)
 
   //for date
@@ -18,19 +19,22 @@ const Form = () => {
 
   //for onchange
   const handleChange = (e)=>{
-    setStates({...states,
-      [e.target.name]:e.target.value,
-      uploadedTime:date
-    })
+    dispatch({type:HANDLE_CHANGE,payload:{date,name:e.target.name,value:e.target.value}})
+    // setStates({...states,
+    //   [e.target.name]:e.target.value,
+    //   uploadedTime:date
+    // })
   }
 
   const handleFileChange=(e)=>{
-    setFiles(e.target.files[0])
+    // setFiles(e.target.files[0])
+    dispatch({type:SUBMIT_FILE,payload:e.target.files[0]})
   }
 
   const handleSubmit=(e)=>{
     e.preventDefault()
-    upload(files,states,setStates,initialState,setSuccess)
+    upload(initialState,state,dispatch,setSuccess)
+    // upload(files,setFiles,states,setStates,initialState,setSuccess,update,setUpdate)
   }
 
   useEffect(()=>{
@@ -45,14 +49,14 @@ const Form = () => {
         <h1 className={styles.heading}>Welcome To The Blog App</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
           <label>Title</label>
-          <input className={styles.inputs} type="text" name='title' value={states.title} onChange={handleChange} />
+          <input className={styles.inputs} type="text" name='title' value={state.data.title} onChange={handleChange} />
           <label>Sub-Title</label>
-          <input className={styles.inputs} type="text" name='subTitle' value={states.subTitle} onChange={handleChange}/>
+          <input className={styles.inputs} type="text" name='subTitle' value={state.data.subTitle} onChange={handleChange}/>
           <label>Description</label>
-          <textarea type="text" value={states.description} name='description' onChange={handleChange}/>
+          <textarea type="text" value={state.data.description} name='description' onChange={handleChange}/>
           <label>Add Image</label>
           <input type="file" className={styles.file} onChange={handleFileChange}/>
-          <button className={styles.button}>Submit</button>
+          <button className={styles.button}>{state.edit?'UPdate':'Submit'}</button>
         </form>
     </div>
   )

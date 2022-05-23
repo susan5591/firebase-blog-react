@@ -1,39 +1,54 @@
-import { createContext, useEffect, useCallback, useState } from "react";
+import { createContext, useEffect, useCallback, useReducer } from "react";
 // import reducer from "./components/Reducer";
-import { onSnapshot,collection } from "firebase/firestore";
+import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "./config";
+import reducer from "./components/reducer";
+import { RETRIEVE_DATA } from "./components/ActionType";
 
-const AppProvider = createContext()
+const AppProvider = createContext();
 
 const initialState = {
-    title:'',
-    subTitle:'',
-    description:'',
-    imageUrl:'',
-    imageName:'',
-    uploadedTime:''
-}
+  data:{
+    title: "",
+    subTitle: "",
+    description: "",
+    imageUrl: "",
+    imageName: "",
+    uploadedTime: "",
+  },
+  id:'',
+  edit:false,
+  files:null,
+  retrieveData:[]
+};
 
-const AppContext = ({children}) =>{
-    const [datas,setDatas] = useState([])
-    const [states,setStates] = useState(initialState)
-    const [files,setFiles] = useState(null)
+const AppContext = ({ children }) => {
 
-    const getData = useCallback(()=>onSnapshot(collection(db, "blog"), (querySnapShot) => {
-        let arr = []
-        querySnapShot.forEach((doc)=>{
-            arr.push({...doc.data(),id:doc.id})
-        })
-        setDatas(arr)
-    }),[]);
+  const [state,dispatch] = useReducer(reducer,initialState)
 
-    useEffect(()=>{
-        getData()
-    },[getData])
+  const getData = useCallback(
+    () =>
+      onSnapshot(collection(db, "blog"), (querySnapShot) => {
+        let arr = [];
+        querySnapShot.forEach((doc) => {
+          arr.push({ ...doc.data(), id: doc.id });
+        });
+        dispatch({type:RETRIEVE_DATA,payload:arr})
+      }),
+    []
+  );
 
-    return <AppProvider.Provider value={{files,setFiles,states,setStates,datas,initialState}}>
-        {children}
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  return (
+    <AppProvider.Provider
+      value={{ initialState, state,dispatch}}
+    >
+      {children}
     </AppProvider.Provider>
-}
+  );
+};
 
-export {AppProvider,AppContext}
+export { AppProvider, AppContext };

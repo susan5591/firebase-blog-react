@@ -1,0 +1,6 @@
+export const RETRIEVE_DATA = 'RETRIEVE_DATA'
+export const HANDLE_CHANGE = 'HANDLE_CHANGE'
+export const SUBMIT_FILE = 'SUBMIT_FILE'
+export const HANDLE_UPDATE = 'HANDLE_UPDATE'
+export const UPDATE_DOC='UPDATE_DOC'
+export const HANDLE_SUBMIT = 'HANDLE_SUBMIT'

@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from '../styles/search.module.css'
+import styles from '../styles/card.module.css'
 import user from '../user.jpg'
+import { AppProvider } from '../context'
+import { HANDLE_UPDATE } from './ActionType'
 
 const Card = ({item,setModal}) => {
+    const {state,dispatch}= useContext(AppProvider)
     const navigate = useNavigate()
 
     const handleDetails=(id)=>{
         navigate(`/details/${id}`)
     }
+
+    const handleUpdate =(id)=>{
+        dispatch({type:HANDLE_UPDATE,payload:{id,edit:true,item}})
+        // setUpdate({state:true,id})
+        // setStates(item)
+        // setFiles(item.imageUrl)
+        navigate('/')
+    }
+
     return (
         <div className={styles.card} onClick={()=>handleDetails(item.id)}>
             <div className={styles.cardContent}>
@@ -23,7 +35,7 @@ const Card = ({item,setModal}) => {
                 </div>
                 <div className={styles.buttons} onClick={(e)=>e.stopPropagation()}>
                     <button  className={styles.delete} onClick={()=>setModal({state:true,id:item.id})}>Delete</button>
-                    <button className={styles.details}>Update</button>
+                    <button className={styles.details} onClick={()=>handleUpdate(item.id)}>Update</button>
                 </div>
             </div>
         </div>

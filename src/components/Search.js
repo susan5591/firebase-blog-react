@@ -3,8 +3,8 @@ import styles from '../styles/search.module.css'
 import Card from './Card'
 
 const Search = ({data}) => {
-    const {datas,search,setSearch,setModal} = data
-    const result = datas.filter((item)=>item.title.includes(search))
+    const {state,search,setSearch,setModal} = data
+    const result = state.retrieveData.filter((item)=>item.title.includes(search))
 
     return (
         <div>

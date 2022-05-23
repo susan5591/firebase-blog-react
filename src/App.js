@@ -1,8 +1,8 @@
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Form from './components/Form';
-import List from './components/List';
-import Details from './components/Details';
+import Navbar from './pages/Navbar';
+import Form from './pages/Form';
+import List from './pages/List';
+import Details from './pages/Details';
 
 function App() {
   return (

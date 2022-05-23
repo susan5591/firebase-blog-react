@@ -5,8 +5,8 @@ import { db, storage} from '../config'
 import { deleteObject, ref } from 'firebase/storage'
 
 const Modal = ({modalData}) => {
-  const {modal,setModal,datas} = modalData
-  let file = datas.find((item)=>item.id===modal.id)
+  const {modal,setModal,state} = modalData
+  let file = state.retrieveData.find((item)=>item.id===modal.id)
   console.log(file.imageName)
   const deleteRef = ref(storage,`blog/${file.imageName}`)
 
@@ -16,7 +16,7 @@ const Modal = ({modalData}) => {
     deleteObject(deleteRef)
       .then(()=>deleteDoc(doc(db,"blog",id))
         .then(()=>console.log("deleted both")))
-    setModal({state:false,id:id})
+    setModal({state:false,id})
   }
   const handleState=()=>{
     setModal({state:false,id:''})
