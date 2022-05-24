@@ -18,9 +18,9 @@ const Pagination = ({setModal}) => {
         <div>
             <div className={styles.result}>
                 {
-                    arr[page].map((item)=>{
+                    arr.length?arr[page].map((item)=>{
                         return <Card item={item} setModal={setModal} key={item.id}/>
-                })}                
+                }):''}                
             </div>
             <div className={styles.paginate}>
                 {page===0?<button className={`${styles.button} ${styles.passive}`}>Previous</button>

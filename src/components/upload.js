@@ -1,12 +1,13 @@
-import { getDownloadURL,ref, uploadBytesResumable} from 'firebase/storage'
+import { deleteObject, getDownloadURL,ref, uploadBytesResumable} from 'firebase/storage'
 import { storage } from '../config'
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../config'
 import { UPDATE_DOC } from './ActionType'
 
-export const upload=(state,dispatch,files,navigate)=>{
+export const upload=(state,dispatch,files,navigate,delmg,setDelmg)=>{
   const date= new Date()
   const now = date.getTime()
+  const deleteRef = ref(storage, `blog/${delmg}`);
   if(files){
       const storageRef = ref(storage,`blog/${now}`)
       const uploadTask = uploadBytesResumable(storageRef,files)
@@ -33,7 +34,11 @@ export const upload=(state,dispatch,files,navigate)=>{
               setDoc(doc(db,"blog",state.id),data)
               .then(()=>(
                 dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),
-                navigate('/list'))
+                deleteObject(deleteRef)
+                  .then(() => setDelmg(""), console.log("Deleted"))
+                  .catch((err) => console.log(err)),
+                navigate('/list')
+                )
               )
               .catch(()=>console.log("Error While Updating."))
             }
@@ -52,8 +57,8 @@ export const upload=(state,dispatch,files,navigate)=>{
       }else{
         setDoc(doc(db,"blog",state.id),{
           ...state.data,
-          imageUrl:'',
-          imageName:''
+          imageUrl:state.data.imageUrl,
+          imageName:state.data.imageName
         })
         .then(()=>(
           dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),

@@ -8,7 +8,7 @@ const Details = () => {
   const {id} = useParams()
   const {state} = useContext(AppProvider)
   const result = state.retrieveData.find((item)=>item.id===id)
-  
+
   return (
     <div className={styles.details}>
       <div className={styles.date}>

@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { HANDLE_CHANGE, HANDLE_SUBMIT } from "../components/ActionType";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../config";
+import Form from "../components/Form";
 
-const Form = () => {
+const Home = () => {
   const navigate = useNavigate();
   const { state, dispatch, initialState } = useContext(AppProvider);
   const [files, setFiles] = useState(null);
@@ -48,13 +49,7 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const deleteRef = ref(storage, `blog/${delmg}`);
-    if (delmg) {
-      deleteObject(deleteRef)
-        .then(() => setDelmg(""), console.log("Deleted"))
-        .catch((err) => console.log(err));
-    }
-    upload(state, dispatch, files, navigate);
+    upload(state, dispatch, files, navigate,delmg,setDelmg);
     dispatch({ type: HANDLE_SUBMIT, payload: { initialState, files: null } });
   };
 
@@ -67,42 +62,9 @@ const Form = () => {
   return (
     <div>
       <h1 className={styles.heading}>Welcome To The Blog App</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <label>Title</label>
-        <input
-          className={styles.inputs}
-          type="text"
-          name="title"
-          value={state.data.title}
-          onChange={handleChange}
-        />
-        <label>Sub-Title</label>
-        <input
-          className={styles.inputs}
-          type="text"
-          name="subTitle"
-          value={state.data.subTitle}
-          onChange={handleChange}
-        />
-        <label>Description</label>
-        <textarea
-          type="text"
-          value={state.data.description}
-          name="description"
-          onChange={handleChange}
-        />
-        <label>Add Image</label>
-        <input
-          type="file"
-          className={styles.file}
-          onChange={handleFileChange}
-        />
-        <button className={styles.button}>
-          {state.edit ? "Update" : "Submit"}
-        </button>
-      </form>
+      <Form data={{state,handleChange,handleFileChange,handleSubmit}}/>
     </div>
   );
 };
 
-export default Form;
+export default Home;
