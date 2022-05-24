@@ -1,8 +1,41 @@
-import React from 'react'
+import React, { useContext,useState,useEffect } from 'react'
+import { AppProvider } from '../context';
 import styles from "../styles/form.module.css";
+import { useNavigate } from "react-router-dom";
+import { upload } from "../components/upload";
+import { HANDLE_CHANGE, HANDLE_SUBMIT } from "../components/ActionType";
 
-const Form = ({data}) => {
-    const {state,handleFileChange,handleChange,handleSubmit} = data
+const Form = () => {
+  const [files, setFiles] = useState(null);
+  const navigate = useNavigate();
+  const [delmg, setDelmg] = useState("");
+  const {state,dispatch,initialState} =useContext(AppProvider)
+
+  var today = new Date();
+  var date =today.getMonth() + 1 +"  " +today.getDate()+  ", " +  today.getFullYear();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    upload(state, dispatch, files, navigate,delmg,setDelmg);
+    dispatch({ type: HANDLE_SUBMIT, payload: { initialState, files: null } });
+  };
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files[0]);
+  };
+
+  const handleChange = (e) => {
+    dispatch({
+      type: HANDLE_CHANGE,
+      payload: { date, name: e.target.name, value: e.target.value },
+    });
+  };
+
+    useEffect(() => {
+    if (state.edit) {
+      setDelmg(state.data.imageName);
+    }}, [state.edit]);
+    
   return (
     <div>
         <form className={styles.form} onSubmit={handleSubmit}>

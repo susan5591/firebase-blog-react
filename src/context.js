@@ -22,9 +22,7 @@ const initialState = {
 };
 
 const AppContext = ({ children }) => {
-
   const [state,dispatch] = useReducer(reducer,initialState)
-
   const getData = useCallback(
     () =>
       onSnapshot(collection(db, "blog"), (querySnapShot) => {

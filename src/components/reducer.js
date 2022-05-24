@@ -45,6 +45,29 @@ const reducer = (state, action) => {
         data: action.payload.item,
       };
 
+    case type.SETDATA:
+  
+      return {
+        ...state,
+        id:action.payload.id,
+        edit: true,
+        data:{
+          ...state.data,
+          ...action.payload.result
+        },
+      };
+
+      case type.RESET:
+        return{
+          ...state,
+          data:{
+            ...state.data,
+            ...action.payload.data
+          },
+          edit:action.payload.edit,
+          id:action.payload.id
+        }
+
     default:
       return state;
   }

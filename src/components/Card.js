@@ -15,7 +15,7 @@ const Card = ({item,setModal}) => {
 
     const handleUpdate =(id)=>{
         dispatch({type:HANDLE_UPDATE,payload:{id,edit:true,item}})
-        navigate('/')
+        navigate(`/update/${id}`)
     }
     return (
         <div className={styles.card} onClick={()=>handleDetails(item.id)}>
