@@ -6,20 +6,19 @@ import Form from './Form'
 
 const Update = () => {
     const {id} = useParams()
-    const {state,dispatch,initialState} = useContext(AppProvider)
+    const {state,dispatch,datas} = useContext(AppProvider)
     
     useEffect(()=>{
-        if(state.retrieveData.length>0){
-          const result = state.retrieveData.find((item)=>item.id===id)
+        if(datas.length>0){
+          const result = datas.find((item)=>item.id===id)
           console.log(result)
           dispatch({type:SETDATA,payload:{id,result}})
         }
 
       return(()=>{
-        dispatch({type:RESET,payload:{data:initialState.data,edit:false,id:''}})
+        dispatch({type:RESET})
       })
-      
-    },[id,state.retrieveData])
+    },[id,datas])
 
   return (
     <div>

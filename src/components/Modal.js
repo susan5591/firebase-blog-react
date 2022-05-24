@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from '../styles/modal.module.css'
 import {doc,deleteDoc} from "firebase/firestore"
 import { db, storage} from '../config'
@@ -6,8 +6,8 @@ import { deleteObject, ref } from 'firebase/storage'
 import {ImCross} from 'react-icons/im'
 
 const Modal = ({modalData}) => {
-  const {modal,setModal,state} = modalData
-  let file = state.retrieveData.find((item)=>item.id===modal.id)
+  const {modal,setModal,datas} = modalData
+  let file = datas.find((item)=>item.id===modal.id)
   console.log(file.imageName)
   const deleteRef = ref(storage,`blog/${file.imageName}`)
 

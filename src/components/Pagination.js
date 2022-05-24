@@ -4,13 +4,13 @@ import Card from './Card'
 import styles from '../styles/search.module.css'
 
 const Pagination = ({setModal}) => {
-    const {state} = useContext(AppProvider) 
+    const {state,datas} = useContext(AppProvider) 
     const [page,setPage] = useState(0)
 
     const size = 6
     let arr = []
-    for (let i = 0; i < state.retrieveData.length; i += size) {
-        let chunk = state.retrieveData.slice(i, i + size);
+    for (let i = 0; i < datas.length; i += size) {
+        let chunk = datas.slice(i, i + size);
         arr.push(chunk)
     }
 

@@ -1,28 +1,14 @@
-import { createContext, useEffect, useCallback, useReducer } from "react";
+import { createContext, useEffect, useCallback, useReducer, useState } from "react";
 // import reducer from "./components/Reducer";
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "./config";
 import reducer from "./components/reducer";
-import { RETRIEVE_DATA } from "./components/ActionType";
 
 const AppProvider = createContext();
 
-const initialState = {
-  data:{
-    title: "",
-    subTitle: "",
-    description: "",
-    imageUrl: "",
-    imageName: "",
-    uploadedTime: "",
-  },
-  id:'',
-  edit:false,
-  retrieveData:[]
-};
-
 const AppContext = ({ children }) => {
-  const [state,dispatch] = useReducer(reducer,initialState)
+  const [datas,setDatas] = useState([])
+  const [state,dispatch] = useReducer(reducer)
   const getData = useCallback(
     () =>
       onSnapshot(collection(db, "blog"), (querySnapShot) => {
@@ -30,7 +16,7 @@ const AppContext = ({ children }) => {
         querySnapShot.forEach((doc) => {
           arr.push({ ...doc.data(), id: doc.id });
         });
-        dispatch({type:RETRIEVE_DATA,payload:arr})
+        setDatas(arr)
       }),
     []
   );
@@ -41,7 +27,7 @@ const AppContext = ({ children }) => {
 
   return (
     <AppProvider.Provider
-      value={{ initialState, state,dispatch}}
+      value={{ datas,state,dispatch}}
     >
       {children}
     </AppProvider.Provider>

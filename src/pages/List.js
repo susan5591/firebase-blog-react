@@ -7,14 +7,14 @@ import Modal from '../components/Modal'
 import Pagination from '../components/Pagination'
 
 const List = () => {
-  const {state}= useContext(AppProvider)
+  const {state,datas}= useContext(AppProvider)
   const [search,setSearch] = useState('')
   const [modal,setModal] = useState({state:false,id:''})
 
   return (
     <div className={styles.listing}>
-      <Search data={{state,search,setSearch,setModal}}/>
-      {modal.state && <Modal modalData={{state,modal,setModal}}/>}
+      <Search data={{state,search,setSearch,setModal,datas}}/>
+      {modal.state && <Modal modalData={{modal,setModal,datas}}/>}
       {!search && <Pagination setModal={setModal}/>}
     </div>
   )

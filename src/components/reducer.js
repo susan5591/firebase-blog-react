@@ -1,13 +1,21 @@
 import * as type from "./ActionType";
-const reducer = (state, action) => {
-  switch (action.type) {
-    case type.RETRIEVE_DATA:
-      return {
-        ...state,
-        retrieveData: action.payload,
-      };
 
-    case type.HANDLE_CHANGE: {
+const initialState = {
+  data:{
+    title: "",
+    subTitle: "",
+    description: "",
+    imageUrl: "",
+    imageName: "",
+    uploadedTime: "",
+  },
+  id:'',
+  edit:false
+};
+
+const reducer = (state=initialState, action) => {
+  switch (action.type) {
+    case type.HANDLE_CHANGE: 
       return {
         ...state,
         data: {
@@ -16,16 +24,11 @@ const reducer = (state, action) => {
           [action.payload.name]: action.payload.value,
         },
       };
-    }
+    
 
-    case type.HANDLE_SUBMIT: {
-      return {
-        ...state,
-        data: action.payload.initialState,
-        files: action.payload.null,
-        edit: false,
-      };
-    }
+    case type.HANDLE_SUBMIT: 
+      return initialState
+    
 
     case type.UPDATE_DOC:
       return {
@@ -58,16 +61,8 @@ const reducer = (state, action) => {
       };
 
       case type.RESET:
-        return{
-          ...state,
-          data:{
-            ...state.data,
-            ...action.payload.data
-          },
-          edit:action.payload.edit,
-          id:action.payload.id
-        }
-
+        return initialState
+    
     default:
       return state;
   }

@@ -17,7 +17,7 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     upload(state, dispatch, files, navigate,delmg,setDelmg);
-    dispatch({ type: HANDLE_SUBMIT, payload: { initialState, files: null } });
+    dispatch({ type: HANDLE_SUBMIT });
   };
 
   const handleFileChange = (e) => {
