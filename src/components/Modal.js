@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from '../styles/modal.module.css'
 import {doc,deleteDoc} from "firebase/firestore"
 import { db, storage} from '../config'

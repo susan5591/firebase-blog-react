@@ -4,7 +4,7 @@ import { AppProvider } from '../context'
 import Search from '../components/Search'
 import styles from '../styles/list.module.css'
 import Modal from '../components/Modal'
-import Pagination from '../components/Pagination'
+import FirebasePagination from '../components/FirebasePagination'
 
 const List = () => {
   const {state,datas}= useContext(AppProvider)
@@ -15,7 +15,7 @@ const List = () => {
     <div className={styles.listing}>
       <Search data={{state,search,setSearch,setModal,datas}}/>
       {modal.state && <Modal modalData={{modal,setModal,datas}}/>}
-      {!search && <Pagination setModal={setModal}/>}
+      {!search && <FirebasePagination setModal={setModal}/>}
     </div>
   )
 }

@@ -9,7 +9,7 @@ const Form = () => {
   const [files, setFiles] = useState(null);
   const navigate = useNavigate();
   const [delmg, setDelmg] = useState("");
-  const {state,dispatch,initialState} =useContext(AppProvider)
+  const {state,dispatch} =useContext(AppProvider)
 
   var today = new Date();
   var date =today.getMonth() + 1 +"  " +today.getDate()+  ", " +  today.getFullYear();
@@ -32,9 +32,10 @@ const Form = () => {
   };
 
     useEffect(() => {
-    if (state.edit) {
-      setDelmg(state.data.imageName);
-    }}, [state.edit]);
+      if (state.edit) {
+        setDelmg(state.data.imageName);
+      }
+    }, [state.edit]);
     
   return (
     <div>

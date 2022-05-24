@@ -13,7 +13,7 @@ const initialState = {
   edit:false
 };
 
-const reducer = (state=initialState, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case type.HANDLE_CHANGE: 
       return {
@@ -63,9 +63,9 @@ const reducer = (state=initialState, action) => {
       case type.RESET:
         return initialState
     
-    default:
-      return state;
-  }
-};
+      default:
+        return state;
+  };
+}
 
 export default reducer;

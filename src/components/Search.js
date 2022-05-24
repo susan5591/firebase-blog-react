@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from '../styles/search.module.css'
 import Card from './Card'
 import {FaSearch} from 'react-icons/fa'
 
 const Search = ({data}) => {
-    const {state,search,setSearch,setModal,datas} = data
+    const {search,setSearch,setModal,datas} = data
     const result = datas.filter((item)=>item.title.includes(search))
 
     return (
