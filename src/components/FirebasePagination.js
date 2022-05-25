@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect,useState } from 'react'
-import { collection, query, orderBy, startAfter, limit, getDocs, endAt, endBefore, limitToLast } from "firebase/firestore";  
+import React, {  useEffect,useState } from 'react'
+import { collection, query, orderBy, startAfter, limit, getDocs, endBefore, limitToLast } from "firebase/firestore";  
 import { db } from '../config';
 import Card from './Card';
 import styles from '../styles/search.module.css'
@@ -8,7 +8,6 @@ const FirebasePagination = ({setModal,size}) => {
     const [display,setDisplay] = useState([])
     const [page,setPage] = useState(0)
     const [documents,setDocuments] = useState([])
-
     const len = 6
     let totalPages = Math.ceil(size/len)
 

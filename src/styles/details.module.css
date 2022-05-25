@@ -2,10 +2,21 @@
     width: 80%;
     margin: auto;
 }
+.back{
+    margin-top: 1rem;
+    background-color: rgb(80, 80, 171);
+    color: white;
+    padding: 5px;
+    height: 30px;
+    width: 30px;
+    font-size: 1rem;
+    border-radius: 50%;
+}
 .date{
-    text-align: right;
     font-size: 1.2rem;
     font-weight: 650;
+    display: flex;
+    justify-content: space-between;
 }
 .imageSection{
     width: 100%;
