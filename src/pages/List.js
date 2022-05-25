@@ -7,7 +7,7 @@ import Modal from '../components/Modal'
 import FirebasePagination from '../components/FirebasePagination'
 
 const List = () => {
-  const {state,datas}= useContext(AppProvider)
+  const {state,datas,size}= useContext(AppProvider)
   const [search,setSearch] = useState('')
   const [modal,setModal] = useState({state:false,id:''})
 
@@ -15,7 +15,7 @@ const List = () => {
     <div className={styles.listing}>
       <Search data={{state,search,setSearch,setModal,datas}}/>
       {modal.state && <Modal modalData={{modal,setModal,datas}}/>}
-      {!search && <FirebasePagination setModal={setModal}/>}
+      {!search && <FirebasePagination setModal={setModal} size={size}/>}
     </div>
   )
 }

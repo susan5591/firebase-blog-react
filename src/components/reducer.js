@@ -9,6 +9,11 @@ const initialState = {
     imageName: "",
     uploadedTime: "",
   },
+  err:{
+    errTitle:'',
+    errSubTitle:'',
+    errDescription:''
+  },
   id:'',
   edit:false
 };
@@ -62,6 +67,15 @@ const reducer = (state, action) => {
 
       case type.RESET:
         return initialState
+      
+      case type.HANDLE_ERROR:
+        return{
+          ...state,
+          err:{
+            ...state.err,
+            [action.payload.name]:action.payload.value
+          }
+        }
     
       default:
         return state;

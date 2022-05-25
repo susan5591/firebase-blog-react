@@ -13,16 +13,23 @@ const initialState = {
     imageName: "",
     uploadedTime: "",
   },
+  err:{
+    errTitle:'',
+    errSubTitle:'',
+    errDescription:''
+  },
   id:'',
-  edit:false
+  edit:false,
 };
 const AppContext = ({ children }) => {
   const [datas,setDatas] = useState([])
   const [state,dispatch] = useReducer(reducer,initialState)
+  const [size,setSize] = useState(0)
   
   const getData = useCallback(
     () =>
       onSnapshot(collection(db, "blog"), (querySnapShot) => {
+        setSize(querySnapShot.size)
         let arr = [];
         querySnapShot.forEach((doc) => {
           arr.push({ ...doc.data(), id: doc.id });
@@ -38,7 +45,7 @@ const AppContext = ({ children }) => {
 
   return (
     <AppProvider.Provider
-      value={{ datas,state,dispatch}}
+      value={{ datas,state,dispatch,size}}
     >
       {children}
     </AppProvider.Provider>
