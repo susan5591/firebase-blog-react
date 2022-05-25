@@ -9,14 +9,13 @@ const FirebasePagination = ({setModal,size}) => {
     const [page,setPage] = useState(0)
     const [documents,setDocuments] = useState([])
 
-    const len = 3
-    console.log(size)
+    const len = 6
     let totalPages = Math.ceil(size/len)
 
     //for first loading
     const pagination = async()=>{
         let arr1=[]
-        const first = query(collection(db, "blog"), orderBy('title'),limit(2));
+        const first = query(collection(db, "blog"), orderBy('title'),limit(len));
         const documentSnapshots = await getDocs(first);
         setDocuments(documentSnapshots)
         documentSnapshots.forEach((doc)=>{
@@ -29,7 +28,7 @@ const FirebasePagination = ({setModal,size}) => {
     const prevPage = async() =>{
         let arr = []
         const lastVisible = documents.docs[documents.docs.length-1];
-        const prev = query(collection(db, "blog"),orderBy('title'),endBefore(lastVisible),limitToLast(2));
+        const prev = query(collection(db, "blog"),orderBy('title'),endBefore(lastVisible),limitToLast(len));
         const final = await getDocs(prev)
         setDocuments(final)
         final.forEach((doc)=>{
@@ -43,7 +42,7 @@ const FirebasePagination = ({setModal,size}) => {
     const nextPage = async() =>{
         let arr2 = []
         const lastVisible = documents.docs[documents.docs.length-1];
-        const next = query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(2));
+        const next = query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
         const final = await getDocs(next)
         setDocuments(final)
         final.forEach((doc)=>{
@@ -70,7 +69,7 @@ const FirebasePagination = ({setModal,size}) => {
                     :<button className={`${styles.button} ${styles.active}`} onClick={prevPage}>Previous</button>
                 }
                 {
-                    page===totalPages?<button className={`${styles.button} ${styles.passive}`} >Next</button>
+                    page===totalPages-1?<button className={`${styles.button} ${styles.passive}`} >Next</button>
                     :<button className={`${styles.button} ${styles.active}`} onClick={nextPage}>Next</button>
                 }
             </div>
