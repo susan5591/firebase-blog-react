@@ -22,6 +22,7 @@ const initialState = {
   edit:false,
 };
 const AppContext = ({ children }) => {
+  const [documents,setDocuments] = useState([])
   const [datas,setDatas] = useState([])
   const [state,dispatch] = useReducer(reducer,initialState)
   const [size,setSize] = useState(0)
@@ -45,7 +46,7 @@ const AppContext = ({ children }) => {
 
   return (
     <AppProvider.Provider
-      value={{ datas,state,dispatch,size}}
+      value={{ datas,state,dispatch,size,documents,setDocuments}}
     >
       {children}
     </AppProvider.Provider>

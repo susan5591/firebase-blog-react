@@ -1,21 +1,22 @@
 import React, {  useContext, useEffect,useState } from 'react'
-import { collection, query, orderBy, startAfter, limit, getDocs, endBefore, limitToLast, onSnapshot } from "firebase/firestore";  
+import { collection, query, orderBy, startAfter, limit, getDocs, endBefore, limitToLast, endAt, startAt } from "firebase/firestore";  
 import { db } from '../config';
 import Card from './Card';
 import styles from '../styles/search.module.css'
 import { AppProvider } from '../context';
 
-const FirebasePagination = ({setModal,modal,size}) => {
-    const {state} = useContext(AppProvider)
+const FirebasePagination = ({setModal,size}) => {
+    const {documents,setDocuments} = useContext(AppProvider)
     const [display,setDisplay] = useState([])
     const [page,setPage] = useState(0)
-    const [documents,setDocuments] = useState([])
+    // const [documents,setDocuments] = useState([])
     const len = 6
     let totalPages = Math.ceil(size/len)
 
     //for first loading
     const pagination = async()=>{
         let arr1=[]
+        // const lastVisible = documents.docs[documents.docs.length];
         const first = query(collection(db, "blog"), orderBy('title'),limit(len));
         const documentSnapshots = await getDocs(first);
         setDocuments(documentSnapshots)
@@ -29,14 +30,15 @@ const FirebasePagination = ({setModal,modal,size}) => {
     const paginateFunc = async(type) =>{
         let arr=[]
         const lastVisible = documents.docs[documents.docs.length-1];
+        let lastBack = documents.docs[documents.docs.length-2];
         let q
         if(type==='prev'){
-            q =  query(collection(db, "blog"),orderBy('title'),endBefore(lastVisible),limitToLast(len));
-            setPage(page-1)
+            q =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
+            setPage(prev=>prev-1)
         }
         else if(type==='next'){
             q =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
-            setPage(page+1)
+            setPage(prev=>prev+1)
         }
         const final = await getDocs(q)
         setDocuments(final)
@@ -48,6 +50,10 @@ const FirebasePagination = ({setModal,modal,size}) => {
 
     useEffect(()=>{
         pagination()
+
+        return (()=>{
+            pagination()
+        })
     },[])
 
     return (
@@ -59,11 +65,11 @@ const FirebasePagination = ({setModal,modal,size}) => {
             </div>
             <div className={styles.paginate}>
                 {
-                    page===0?<button className={`${styles.button} ${styles.passive}`}>Previous</button>
+                    page===0?''
                     :<button className={`${styles.button} ${styles.active}`} onClick={()=>paginateFunc("prev")}>Previous</button>
                 }
                 {
-                    page===totalPages-1?<button className={`${styles.button} ${styles.passive}`} >Next</button>
+                    page===totalPages-1?''
                     :<button className={`${styles.button} ${styles.active}`} onClick={()=>paginateFunc("next")}>Next</button>
                 }
             </div>

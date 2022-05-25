@@ -15,7 +15,7 @@ const List = () => {
     <div className={styles.listing}>
       <Search data={{state,search,setSearch,setModal,datas}}/>
       {modal.state && <Modal modalData={{modal,setModal,datas}}/>}
-      {!search && <FirebasePagination setModal={setModal} size={size} modal={modal}/>}
+      {!search && <FirebasePagination setModal={setModal} size={size}/>}
     </div>
   )
 }
