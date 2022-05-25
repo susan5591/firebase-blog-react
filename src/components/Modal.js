@@ -8,7 +8,6 @@ import {ImCross} from 'react-icons/im'
 const Modal = ({modalData}) => {
   const {modal,setModal,datas} = modalData
   let file = datas.find((item)=>item.id===modal.id)
-  console.log(file.imageName)
   const deleteRef = ref(storage,`blog/${file.imageName}`)
 
   const handleDelete =async(id)=>{
