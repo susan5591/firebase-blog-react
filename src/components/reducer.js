@@ -10,9 +10,9 @@ const initialState = {
     uploadedTime: "",
   },
   err:{
-    errTitle:'',
-    errSubTitle:'',
-    errDescription:''
+    title:'',
+    subTitle:'',
+    description:''
   },
   id:'',
   edit:false
@@ -73,7 +73,7 @@ const reducer = (state, action) => {
           ...state,
           err:{
             ...state.err,
-            [action.payload.name]:action.payload.value
+            ...action.payload
           }
         }
     

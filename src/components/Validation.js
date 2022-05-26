@@ -1,29 +1,34 @@
-import { HANDLE_ERROR } from "./ActionType"
+export const validateFormField = (toValidateField) => {
+  let error = {};
+  Object.keys(toValidateField).forEach((field) => {
+    const element = document.getElementsByName(field)[0];
+    console.log(element)
+    const validateConditions =
+      (element && element?.getAttribute("validator")?.split(",")) || [];
+      console.log(validateConditions)
+    validateConditions.length &&
+      validateConditions.some((item) => {
+        error[field] = validateError(item, toValidateField[field], field);
+        return error[field] !== "";
+      });
+  });
+  console.log(error)
+  return error;
+};
 
-export const checkField=(name,value,dispatch)=>{
-    switch(name){   
-        case 'title':
-            if(!value){
-                dispatch({type:HANDLE_ERROR,payload:{name:'errTitle',value:'Title is required'}})
-                return false
-            }
-            dispatch({type:HANDLE_ERROR,payload:{name:'errTitle',value:""}})
-            return true   
+const validateError = (condition, fieldValue, fieldname) => {
+  switch (condition) {
+    case "required":
+      return fieldValue.length === 0? `${fieldname} is required` : "";
 
-        case 'subTitle':
-            if(!value){
-                dispatch({type:HANDLE_ERROR,payload:{name:'errSubTitle',value:'SubTitle is required'}})
-                return false
-            }
-            dispatch({type:HANDLE_ERROR,payload:{name:'errSubTitle',value:""}})
-            return true
+    case "minlength50":
+      return fieldValue.length < 50? `${fieldname} must have atleast 50 letters` : "";
 
-        case 'description':
-            if(!value){
-                dispatch({type:HANDLE_ERROR,payload:{name:'errDescription',value:'Description is required'}})
-                return false
-            }
-            dispatch({type:HANDLE_ERROR,payload:{name:'errDescription',value:""}})
-            return true
-    }
-}
+    default:
+      return "";
+  }
+};
+
+export const checkErrors = (errors) => {
+  return Object.values(errors).filter((item) => item).length ? true : false;
+};

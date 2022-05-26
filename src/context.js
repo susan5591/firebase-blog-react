@@ -8,15 +8,15 @@ const initialState = {
   data:{
     title: "",
     subTitle: "",
-    description: "",
+    descriptions: "",
     imageUrl: "",
     imageName: "",
     uploadedTime: "",
   },
   err:{
-    errTitle:'',
-    errSubTitle:'',
-    errDescription:''
+    title:'',
+    subTitle:'',
+    descriptions:''
   },
   id:'',
   edit:false,

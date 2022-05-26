@@ -26,7 +26,7 @@ const Card = ({item,setModal}) => {
                     </div>
                     <h3>{item.title}</h3>
                     <p>
-                        {item.description.length>200?item.description.substring(0,200)+"...":item.description}
+                        {item.description.length>200?item.descriptions.substring(0,200)+"...":item.descriptions}
                     </p>
                 </div>
                 <div className={styles.buttons} onClick={(e)=>e.stopPropagation()}>

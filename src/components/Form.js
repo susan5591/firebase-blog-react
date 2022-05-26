@@ -1,37 +1,43 @@
-import React, { useContext,useState,useEffect } from 'react'
-import { AppProvider } from '../context';
+import React, { useContext, useState, useEffect } from "react";
+import { AppProvider } from "../context";
 import styles from "../styles/form.module.css";
 import { useNavigate } from "react-router-dom";
 import { upload } from "../components/upload";
-import { HANDLE_CHANGE, HANDLE_SUBMIT } from "../components/ActionType";
-import { checkField } from './Validation';
+import {
+  HANDLE_CHANGE,
+  HANDLE_SUBMIT,
+  HANDLE_ERROR,
+} from "../components/ActionType";
+import { checkErrors, validateFormField } from "./Validation";
 
 const Form = () => {
   const [files, setFiles] = useState(null);
   const navigate = useNavigate();
   const [delmg, setDelmg] = useState("");
-  const {state,dispatch} =useContext(AppProvider)
-  const [isFirst,setIsFirst] = useState(true)
+  const { state, dispatch } = useContext(AppProvider);
+  const [isFirst, setIsFirst] = useState(true);
 
   var today = new Date();
-  var date =today.getMonth() + 1 +"  " +today.getDate()+  ", " +  today.getFullYear();
-
-  const validateForm = (e)=>{
-    e.preventDefault()
-    const {title,subTitle,description} = state.data
-    let a =checkField('title',title,dispatch)
-    let b =checkField('subTitle',subTitle,dispatch)
-    let c =checkField('description',description,dispatch)
-    setIsFirst(false)
-    if(a&&b&&c){
-      handleSubmit()
-    }
-  }
+  var date =
+    today.getMonth() + 1 + "  " + today.getDate() + ", " + today.getFullYear();
 
   const handleSubmit = (e) => {
-    setIsFirst(true)
-    upload(state, dispatch, files, navigate,delmg,setDelmg);
-    dispatch({ type: HANDLE_SUBMIT });
+    e.preventDefault();
+    const { title, subTitle, descriptions } = state.data;
+    setIsFirst(false);
+    const errors = validateFormField({ title, subTitle, descriptions });
+
+    if (checkErrors(errors)) {
+      alert("error form");
+    } else {
+      upload(state, dispatch, files, navigate, delmg, setDelmg);
+      dispatch({ type: HANDLE_SUBMIT });
+      setIsFirst(true)
+    }
+    dispatch({
+      type: HANDLE_ERROR,
+      payload: errors,
+    });
   };
 
   const handleFileChange = (e) => {
@@ -39,24 +45,30 @@ const Form = () => {
   };
 
   const handleChange = (e) => {
-    const {name,value}=e.target
+    const { name, value } = e.target;
     dispatch({
       type: HANDLE_CHANGE,
       payload: { date, name, value },
     });
-    if(!isFirst){
-      checkField(name,value,dispatch)
-    }
+    const errorAfterChange = !isFirst
+      ? validateFormField({ [name]: value })
+      : {};
+    dispatch({
+      type: HANDLE_ERROR,
+      payload: errorAfterChange,
+    });
   };
-    useEffect(() => {
-      if (state.edit) {
-        setDelmg(state.data.imageName);
-      }
-    }, [state.edit]);
+
+  useEffect(() => {
+    if (state.edit) {
+      setDelmg(state.data.imageName);
+    }
+  }, [state.edit]);
 
   return (
     <div>
-        <form className={styles.form} onSubmit={validateForm}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+
         <label>Title</label>
         <input
           className={styles.inputs}
@@ -64,8 +76,12 @@ const Form = () => {
           name="title"
           value={state.data.title}
           onChange={handleChange}
+          validator={["required"]}
         />
-        {state.err.errTitle && <span className={styles.error}>{state.err.errTitle}</span>}
+        {state.err.title && (
+          <span className={styles.error}>{state.err.title}</span>
+        )}
+
         <label>Sub-Title</label>
         <input
           className={styles.inputs}
@@ -73,29 +89,40 @@ const Form = () => {
           name="subTitle"
           value={state.data.subTitle}
           onChange={handleChange}
+          validator={["required"]}
         />
-        <span className={styles.error}>{state.err.errSubTitle}</span>
+        {state.err.subTitle && (
+          <span className={styles.error}>{state.err.subTitle}</span>
+        )}
+
         <label>Description</label>
         <textarea
           type="text"
-          value={state.data.description}
-          name="description"
+          value={state.data.descriptions}
+          name="descriptions"
           onChange={handleChange}
+          validator={["required","minlength50"]}
         />
-        <span className={styles.error}>{state.err.errDescription}</span>
+        {state.err.descriptions && (
+          <span className={styles.error}>{state.err.descriptions}</span>
+        )}
+
         <label>Add Image</label>
-        {state.edit && (state.data.imageUrl && <img src={state.data.imageUrl} alt="name"/>)}
+        {state.edit && state.data.imageUrl && (
+          <img src={state.data.imageUrl} alt="name" />
+        )}
         <input
           type="file"
           className={styles.file}
           onChange={handleFileChange}
         />
+
         <button className={styles.button}>
           {state.edit ? "Update" : "Submit"}
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;
