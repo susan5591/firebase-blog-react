@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { upload } from "../components/upload";
 import {
   HANDLE_CHANGE,
-  HANDLE_SUBMIT,
+  RESET,
   HANDLE_ERROR,
 } from "../components/ActionType";
 import { checkErrors, validateFormField } from "./Validation";
@@ -14,14 +14,23 @@ import LinearProgressWithLabel from "./Progress";
 const Form = () => {
   const [files, setFiles] = useState(null);
   const navigate = useNavigate();
-  const [delmg, setDelmg] = useState("");
   const { state, dispatch,setPage } = useContext(AppProvider);
   const [isFirst, setIsFirst] = useState(true);
   const [progress,setProgress] = useState(0)
 
   var today = new Date();
-  var date =
-    today.getMonth() + 1 + "  " + today.getDate() + ", " + today.getFullYear();
+  var date = today.getMonth() + "  " + today.getDate() + ", " + today.getFullYear();
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files[0]);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({type: HANDLE_CHANGE,payload: { date, name, value },});
+    const errorAfterChange = !isFirst? validateFormField({ [name]: value }): {};
+    dispatch({type: HANDLE_ERROR,payload: errorAfterChange,});
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,46 +41,17 @@ const Form = () => {
     if (checkErrors(errors)) {
       alert("error form");
     } else {
-      upload(state, dispatch, files, navigate, delmg, setDelmg,setProgress);
-      dispatch({ type: HANDLE_SUBMIT });
+      upload(state, dispatch, files, navigate,setProgress);
+      dispatch({ type: RESET });
       setIsFirst(true)
       setPage(0)
     }
-    dispatch({
-      type: HANDLE_ERROR,
-      payload: errors,
-    });
+    dispatch({type: HANDLE_ERROR, payload: errors});
   };
-
-  const handleFileChange = (e) => {
-    setFiles(e.target.files[0]);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    dispatch({
-      type: HANDLE_CHANGE,
-      payload: { date, name, value },
-    });
-    const errorAfterChange = !isFirst
-      ? validateFormField({ [name]: value })
-      : {};
-    dispatch({
-      type: HANDLE_ERROR,
-      payload: errorAfterChange,
-    });
-  };
-
-  useEffect(() => {
-    if (state.edit) {
-      setDelmg(state.data.imageName);
-    }
-  }, [state.edit]);
 
   return (
     <div>
       <form className={styles.form} onSubmit={handleSubmit}>
-
         <label>Title</label>
         <input
           className={styles.inputs}

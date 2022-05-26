@@ -4,7 +4,7 @@ import { db } from "./config";
 import reducer from "./components/reducer";
 
 const AppProvider = createContext();
-const initialState = {
+export const initialState = {
   data:{
     title: "",
     subTitle: "",

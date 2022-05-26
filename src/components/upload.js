@@ -4,10 +4,10 @@ import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../config'
 import { UPDATE_DOC } from './ActionType'
 
-export const upload=(state,dispatch,files,navigate,delmg,setDelmg,setProgress)=>{
+export const upload=(state,dispatch,files,navigate,setProgress)=>{
   const date= new Date()
   const now = date.getTime()
-  const deleteRef = ref(storage, `blog/${delmg}`);
+  const deleteRef = ref(storage, `blog/${state.edit?state.data.imageName:''}`);
   if(files){
       const storageRef = ref(storage,`blog/${now}`)
       const uploadTask = uploadBytesResumable(storageRef,files)
@@ -36,7 +36,7 @@ export const upload=(state,dispatch,files,navigate,delmg,setDelmg,setProgress)=>
               .then(()=>(
                 dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),
                 deleteObject(deleteRef)
-                  .then(() => setDelmg(""), console.log("Deleted"))
+                  .then(() => console.log("Deleted"))
                   .catch((err) => console.log(err)),
                 navigate('/list')
                 )

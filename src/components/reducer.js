@@ -1,22 +1,5 @@
 import * as type from "./ActionType";
-
-const initialState = {
-  data:{
-    title: "",
-    subTitle: "",
-    descriptions: "",
-    imageUrl: "",
-    imageName: "",
-    uploadedTime: "",
-  },
-  err:{
-    title:'',
-    subTitle:'',
-    descriptions:''
-  },
-  id:'',
-  edit:false
-};
+import { initialState } from "../context";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -29,12 +12,7 @@ const reducer = (state, action) => {
           [action.payload.name]: action.payload.value,
         },
       };
-    
-
-    case type.HANDLE_SUBMIT: 
-      return initialState
-    
-
+        
     case type.UPDATE_DOC:
       return {
         ...state,
@@ -53,8 +31,7 @@ const reducer = (state, action) => {
         data: action.payload.item,
       };
 
-    case type.SETDATA:
-  
+    case type.SETDATA:  
       return {
         ...state,
         id:action.payload.id,
