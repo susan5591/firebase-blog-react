@@ -39,11 +39,10 @@ const FirebasePagination = ({setModal,size}) => {
             console.log(page)
             let arr1=[]
             let first
-            if(page===0){
+            if(page===1){
                 first = query(collection(db, "blog"), orderBy('title'),limit(len));
             }else{
                 const lastVisible = documents.docs[0];
-                console.log(documents.docs.length)
                 first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
             }
             const documentSnapshots = await getDocs(first);
@@ -76,11 +75,11 @@ const FirebasePagination = ({setModal,size}) => {
             </div>
             <div className={styles.paginate}>
                 {
-                    page===0?''
+                    page===1?''
                     :<button className={`${styles.button} ${styles.active}`} onClick={()=>paginateFunc("prev")}>Previous</button>
                 }
                 {
-                    page===totalPages-1?''
+                    page===totalPages?''
                     :<button className={`${styles.button} ${styles.active}`} onClick={()=>paginateFunc("next")}>Next</button>
                 }
             </div>

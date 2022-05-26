@@ -1,12 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from '../styles/card.module.css'
 import user from '../user.jpg'
-import { AppProvider } from '../context'
-import { HANDLE_UPDATE } from './ActionType'
 
 const Card = ({item,setModal}) => {
-    const {dispatch}= useContext(AppProvider)
     const navigate = useNavigate()
 
     const handleDetails=(id)=>{
@@ -14,9 +11,9 @@ const Card = ({item,setModal}) => {
     }
 
     const handleUpdate =(id)=>{
-        dispatch({type:HANDLE_UPDATE,payload:{id,edit:true,item}})
         navigate(`/update/${id}`)
     }
+
     return (
         <div className={styles.card} onClick={()=>handleDetails(item.id)}>
             <div className={styles.cardContent}>

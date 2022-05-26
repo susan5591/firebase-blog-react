@@ -26,7 +26,7 @@ const AppContext = ({ children }) => {
   const [datas,setDatas] = useState([])
   const [state,dispatch] = useReducer(reducer,initialState)
   const [size,setSize] = useState(0)
-  const [page,setPage] = useState(0)
+  const [page,setPage] = useState(1)
   
   const getData = useCallback(
     () =>

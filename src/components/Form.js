@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { AppProvider } from "../context";
 import styles from "../styles/form.module.css";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ const Form = () => {
       upload(state, dispatch, files, navigate,setProgress);
       dispatch({ type: RESET });
       setIsFirst(true)
-      setPage(0)
+      setPage(1)
     }
     dispatch({type: HANDLE_ERROR, payload: errors});
   };

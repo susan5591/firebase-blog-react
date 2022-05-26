@@ -23,14 +23,6 @@ const reducer = (state, action) => {
         },
       };
 
-    case type.HANDLE_UPDATE:
-      return {
-        ...state,
-        id: action.payload.id,
-        edit: true,
-        data: action.payload.item,
-      };
-
     case type.SETDATA:  
       return {
         ...state,
