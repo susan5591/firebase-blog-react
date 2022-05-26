@@ -6,10 +6,8 @@ import styles from '../styles/search.module.css'
 import { AppProvider } from '../context';
 
 const FirebasePagination = ({setModal,size}) => {
-    const {documents,setDocuments} = useContext(AppProvider)
+    const {documents,setDocuments,page,setPage} = useContext(AppProvider)
     const [display,setDisplay] = useState([])
-    const [page,setPage] = useState(0)
-    // const [documents,setDocuments] = useState([])
     const len = 3
     let totalPages = Math.ceil(size/len)
 
@@ -48,27 +46,20 @@ const FirebasePagination = ({setModal,size}) => {
     }
     useEffect(()=>{
         async function fetchData(){
-            console.log("first")
+            let arr1=[]
+            let first
+            const lastVisible = documents.docs[0];
             if(page!==0){
-                let arr1=[]
-                const lastVisible = documents.docs[0];
-                const first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
-                const documentSnapshots = await getDocs(first);
-                setDocuments(documentSnapshots)
-                documentSnapshots.forEach((doc)=>{
-                    arr1.push({ ...doc.data(), id: doc.id })
-                })
-                setDisplay(arr1)
+                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
             }else{
-                let arr1=[]
-                const first = query(collection(db, "blog"), orderBy('title'),limit(len));
-                const documentSnapshots = await getDocs(first);
-                setDocuments(documentSnapshots)
-                documentSnapshots.forEach((doc)=>{
-                    arr1.push({ ...doc.data(), id: doc.id })
-                })
-                setDisplay(arr1)
+                first = query(collection(db, "blog"), orderBy('title'),limit(len));
             }
+            const documentSnapshots = await getDocs(first);
+            setDocuments(documentSnapshots)
+            documentSnapshots.forEach((doc)=>{
+                arr1.push({ ...doc.data(), id: doc.id })
+            })
+            setDisplay(arr1)
         }
         fetchData()
     },[size])

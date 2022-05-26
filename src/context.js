@@ -26,6 +26,7 @@ const AppContext = ({ children }) => {
   const [datas,setDatas] = useState([])
   const [state,dispatch] = useReducer(reducer,initialState)
   const [size,setSize] = useState(0)
+  const [page,setPage] = useState(0)
   
   const getData = useCallback(
     () =>
@@ -46,7 +47,7 @@ const AppContext = ({ children }) => {
 
   return (
     <AppProvider.Provider
-      value={{ datas,state,dispatch,size,documents,setDocuments}}
+      value={{ datas,state,dispatch,size,documents,setDocuments,page,setPage}}
     >
       {children}
     </AppProvider.Provider>
