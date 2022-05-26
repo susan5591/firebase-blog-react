@@ -9,6 +9,7 @@ import CircularIndeterminate from './Loading';
 const FirebasePagination = ({setModal,size}) => {
     const {documents,setDocuments,page,setPage} = useContext(AppProvider)
     const [display,setDisplay] = useState([])
+    const [loading,setLoading] = useState(true)
     const len = 3
     let totalPages = Math.ceil(size/len)
 
@@ -50,6 +51,7 @@ const FirebasePagination = ({setModal,size}) => {
             documentSnapshots.forEach((doc)=>{
                 arr1.push({ ...doc.data(), id: doc.id })
             })
+            setLoading(false)
             if(arr1.length){
                 setDisplay(arr1)
             }else{
@@ -59,11 +61,17 @@ const FirebasePagination = ({setModal,size}) => {
         fetchData()
     },[size])
 
-    if(display.length===0){
+    if(loading){
         return <div>
                 <CircularIndeterminate />
                 <h1 className={styles.loading}>Loading .....</h1>
             </div>
+    }
+    if(!display.length){
+        return <div>
+            <h1 className={styles.loading}>Nothing to show here</h1>
+            <h1 className={styles.loading}>Add some blog</h1>
+        </div>
     }
 
     return (

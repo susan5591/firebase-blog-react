@@ -18,8 +18,11 @@ const Form = () => {
   const [isFirst, setIsFirst] = useState(true);
   const [progress,setProgress] = useState(0)
 
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+    "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+  ];
   var today = new Date();
-  var date = today.getMonth() + "  " + today.getDate() + ", " + today.getFullYear();
+  var date = monthNames[today.getMonth()] + "  " + today.getDate() + ", " + today.getFullYear();
 
   const handleFileChange = (e) => {
     setFiles(e.target.files[0]);
