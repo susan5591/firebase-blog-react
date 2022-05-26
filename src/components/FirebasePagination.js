@@ -38,12 +38,11 @@ const FirebasePagination = ({setModal,size}) => {
             console.log(page)
             let arr1=[]
             let first
-            
-            if(page<1){
+            if(page===0){
                 first = query(collection(db, "blog"), orderBy('title'),limit(len));
             }else{
                 const lastVisible = documents.docs[0];
-                console.log(lastVisible)
+                console.log(documents.docs.length)
                 first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
             }
             const documentSnapshots = await getDocs(first);
@@ -51,7 +50,11 @@ const FirebasePagination = ({setModal,size}) => {
             documentSnapshots.forEach((doc)=>{
                 arr1.push({ ...doc.data(), id: doc.id })
             })
-            setDisplay(arr1)
+            if(arr1.length){
+                setDisplay(arr1)
+            }else{
+                paginateFunc("prev")
+            }
         }
         fetchData()
     },[size])
