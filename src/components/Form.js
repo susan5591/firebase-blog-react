@@ -9,6 +9,7 @@ import {
   HANDLE_ERROR,
 } from "../components/ActionType";
 import { checkErrors, validateFormField } from "./Validation";
+import LinearProgressWithLabel from "./Progress";
 
 const Form = () => {
   const [files, setFiles] = useState(null);
@@ -16,6 +17,7 @@ const Form = () => {
   const [delmg, setDelmg] = useState("");
   const { state, dispatch,setPage } = useContext(AppProvider);
   const [isFirst, setIsFirst] = useState(true);
+  const [progress,setProgress] = useState(0)
 
   var today = new Date();
   var date =
@@ -30,7 +32,7 @@ const Form = () => {
     if (checkErrors(errors)) {
       alert("error form");
     } else {
-      upload(state, dispatch, files, navigate, delmg, setDelmg);
+      upload(state, dispatch, files, navigate, delmg, setDelmg,setProgress);
       dispatch({ type: HANDLE_SUBMIT });
       setIsFirst(true)
       setPage(0)
@@ -122,6 +124,7 @@ const Form = () => {
           {state.edit ? "Update" : "Submit"}
         </button>
       </form>
+      {progress && <LinearProgressWithLabel value={progress} />}
     </div>
   );
 };

@@ -50,6 +50,9 @@
 }
 
 .passive{
-    background-color: rgba(123, 174, 212, 0.8);
-    
+    background-color: rgba(123, 174, 212, 0.8);   
+}
+
+.loading{
+    text-align: center;
 }

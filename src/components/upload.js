@@ -4,7 +4,7 @@ import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../config'
 import { UPDATE_DOC } from './ActionType'
 
-export const upload=(state,dispatch,files,navigate,delmg,setDelmg)=>{
+export const upload=(state,dispatch,files,navigate,delmg,setDelmg,setProgress)=>{
   const date= new Date()
   const now = date.getTime()
   const deleteRef = ref(storage, `blog/${delmg}`);
@@ -14,6 +14,7 @@ export const upload=(state,dispatch,files,navigate,delmg,setDelmg)=>{
       uploadTask.on('state_changed',
       (snapshot)=>{
         const progress = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+        setProgress(progress)
         console.log(`uploading ${progress} %`)
       },
       (error)=>{

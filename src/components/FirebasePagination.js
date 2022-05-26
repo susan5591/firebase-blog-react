@@ -4,6 +4,7 @@ import { db } from '../config';
 import Card from './Card';
 import styles from '../styles/search.module.css'
 import { AppProvider } from '../context';
+import CircularIndeterminate from './Loading';
 
 const FirebasePagination = ({setModal,size}) => {
     const {documents,setDocuments,page,setPage} = useContext(AppProvider)
@@ -58,6 +59,13 @@ const FirebasePagination = ({setModal,size}) => {
         }
         fetchData()
     },[size])
+
+    if(display.length===0){
+        return <div>
+                <CircularIndeterminate />
+                <h1 className={styles.loading}>Loading .....</h1>
+            </div>
+    }
 
     return (
         <div>
