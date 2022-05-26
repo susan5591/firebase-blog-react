@@ -6,7 +6,7 @@ import { AppProvider } from '../context'
 import { HANDLE_UPDATE } from './ActionType'
 
 const Card = ({item,setModal}) => {
-    const {state,dispatch}= useContext(AppProvider)
+    const {dispatch}= useContext(AppProvider)
     const navigate = useNavigate()
 
     const handleDetails=(id)=>{
@@ -26,7 +26,7 @@ const Card = ({item,setModal}) => {
                     </div>
                     <h3>{item.title}</h3>
                     <p>
-                        {item.description.length>200?item.descriptions.substring(0,200)+"...":item.descriptions}
+                        {item.descriptions.length>200?item.descriptions.substring(0,200)+"...":item.descriptions}
                     </p>
                 </div>
                 <div className={styles.buttons} onClick={(e)=>e.stopPropagation()}>

@@ -4,7 +4,7 @@ const initialState = {
   data:{
     title: "",
     subTitle: "",
-    description: "",
+    descriptions: "",
     imageUrl: "",
     imageName: "",
     uploadedTime: "",
@@ -12,7 +12,7 @@ const initialState = {
   err:{
     title:'',
     subTitle:'',
-    description:''
+    descriptions:''
   },
   id:'',
   edit:false
