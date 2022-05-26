@@ -11,48 +11,40 @@ const FirebasePagination = ({setModal,size}) => {
     const len = 3
     let totalPages = Math.ceil(size/len)
 
-    //for first loading
-    const pagination = async()=>{
-        let arr1=[]
-        const first = query(collection(db, "blog"), orderBy('title'),limit(len));
-        const documentSnapshots = await getDocs(first);
-        setDocuments(documentSnapshots)
-        documentSnapshots.forEach((doc)=>{
-            arr1.push({ ...doc.data(), id: doc.id })
-        })
-        setDisplay(arr1)
-    }
-
     //mix optimized
     const paginateFunc = async(type) =>{
         let arr=[]
         const lastVisible = documents.docs[documents.docs.length-1];
         let lastBack = documents.docs[0];
-        let q
+        let queryData
         if(type==='prev'){
-            q =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
+            queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
             setPage(prev=>prev-1)
         }
         else if(type==='next'){
-            q =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
+            queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
             setPage(prev=>prev+1)
         }
-        const final = await getDocs(q)
+        const final = await getDocs(queryData)
         setDocuments(final)
         final.forEach((doc)=>{
             arr.push({ ...doc.data(), id: doc.id })        
         })
         setDisplay(arr) 
     }
+
     useEffect(()=>{
         async function fetchData(){
+            console.log(page)
             let arr1=[]
             let first
-            const lastVisible = documents.docs[0];
-            if(page!==0){
-                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
-            }else{
+            
+            if(page<1){
                 first = query(collection(db, "blog"), orderBy('title'),limit(len));
+            }else{
+                const lastVisible = documents.docs[0];
+                console.log(lastVisible)
+                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
             }
             const documentSnapshots = await getDocs(first);
             setDocuments(documentSnapshots)
@@ -63,14 +55,6 @@ const FirebasePagination = ({setModal,size}) => {
         }
         fetchData()
     },[size])
-
-    useEffect(()=>{
-        pagination()
-
-        return (()=>{
-            pagination()
-        })
-    },[])
 
     return (
         <div>

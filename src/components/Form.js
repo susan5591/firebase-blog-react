@@ -14,7 +14,7 @@ const Form = () => {
   const [files, setFiles] = useState(null);
   const navigate = useNavigate();
   const [delmg, setDelmg] = useState("");
-  const { state, dispatch } = useContext(AppProvider);
+  const { state, dispatch,setPage } = useContext(AppProvider);
   const [isFirst, setIsFirst] = useState(true);
 
   var today = new Date();
@@ -33,6 +33,7 @@ const Form = () => {
       upload(state, dispatch, files, navigate, delmg, setDelmg);
       dispatch({ type: HANDLE_SUBMIT });
       setIsFirst(true)
+      setPage(0)
     }
     dispatch({
       type: HANDLE_ERROR,

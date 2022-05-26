@@ -2,17 +2,14 @@ export const validateFormField = (toValidateField) => {
   let error = {};
   Object.keys(toValidateField).forEach((field) => {
     const element = document.getElementsByName(field)[0];
-    console.log(element)
     const validateConditions =
       (element && element?.getAttribute("validator")?.split(",")) || [];
-      console.log(validateConditions)
     validateConditions.length &&
       validateConditions.some((item) => {
         error[field] = validateError(item, toValidateField[field], field);
         return error[field] !== "";
       });
   });
-  console.log(error)
   return error;
 };
 
