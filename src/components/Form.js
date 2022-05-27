@@ -3,6 +3,7 @@ import { AppProvider } from "../context";
 import styles from "../styles/form.module.css";
 import { useNavigate } from "react-router-dom";
 import { upload } from "../components/upload";
+import user from '../user.jpg'
 import {
   HANDLE_CHANGE,
   RESET,
@@ -13,6 +14,7 @@ import LinearProgressWithLabel from "./Progress";
 
 const Form = () => {
   const [files, setFiles] = useState('');
+  const [filed,setFiled] = useState('')
   const navigate = useNavigate();
   const { state, dispatch,setPage } = useContext(AppProvider);
   const [isFirst, setIsFirst] = useState(true);
@@ -27,6 +29,7 @@ const Form = () => {
   const handleFileChange = (e) => {
     // const { name, value } = e.target;
     setFiles(e.target.files[0]);
+    setFiled(URL.createObjectURL(e.target.files[0]))
     // const errorAfterChange = !isFirst? validateFormField({ [name]: value }): {};
     // dispatch({type: HANDLE_ERROR,payload: errorAfterChange,});
   };
@@ -45,13 +48,12 @@ const Form = () => {
     // const errors = validateFormField({ title, subTitle, descriptions,files });
     const errors = validateFormField({ title, subTitle, descriptions });
 
-    if (checkErrors(errors)) {
-      alert("error form");
-    } else {
+    if (!checkErrors(errors)) {
       upload(state, dispatch, files, navigate,setProgress);
-      dispatch({ type: RESET });
       setIsFirst(true)
       setPage(1)
+      setFiles('')
+      // setFiled('')
     }
     dispatch({type: HANDLE_ERROR, payload: errors});
   };
@@ -98,9 +100,7 @@ const Form = () => {
         )}
 
         <label>Add Image</label>
-        {state.edit && state.data.imageUrl && (
-          <img src={state.data.imageUrl} alt="name" />
-        )}
+        {files||state.edit?<div className={styles.profile}><img src={filed||state.data.imageUrl||user} className={styles.profileOne} alt="name" /></div>:''}
         <input
           type="file"
           // name="files"

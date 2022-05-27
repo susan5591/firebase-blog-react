@@ -22,7 +22,7 @@ const Card = ({item,setModal}) => {
                         <img src={item.imageUrl?item.imageUrl:user} alt="image"/>
                     </div>
                     <h3>{item.title}</h3>
-                    <p>
+                    <p className={styles.par}>
                         {item.descriptions.length>200?item.descriptions.substring(0,200)+"...":item.descriptions}
                     </p>
                 </div>

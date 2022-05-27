@@ -20,7 +20,7 @@ export const initialState = {
     // files:''
   },
   id:'',
-  edit:false,
+  edit:false
 };
 const AppContext = ({ children }) => {
   const [documents,setDocuments] = useState([])

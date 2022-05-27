@@ -18,34 +18,32 @@ const FirebasePagination = ({setModal,size}) => {
     //mix optimized
     const paginateFunc = async(type) =>{
         let arr=[]
-        // if(size){
-            const lastVisible = documents.docs[documents.docs.length-1];
-            let lastBack = documents.docs[0];
-            let queryData
-            if(display.length){    
-                if(type==='prev'){
-                    queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
-                    setPage(prev=>prev-1)
-                }
-                else if(type==='next'){
-                    queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
-                    setPage(prev=>prev+1)
-                }
-                const final = await getDocs(queryData)
-                setDocuments(final)
-                final.forEach((doc)=>{
-                    arr.push({ ...doc.data(), id: doc.id })        
-                })
+        const lastVisible = documents.docs[documents.docs.length-1];
+        let lastBack = documents.docs[0];
+        let queryData
+        // if(display.length){    
+            if(type==='prev'){
+                queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
+                setPage(prev=>prev-1)
             }
-            setDisplay(arr) 
+            else if(type==='next'){
+                queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
+                setPage(prev=>prev+1)
+            }
+            const final = await getDocs(queryData)
+            setDocuments(final)
+            final.forEach((doc)=>{
+                arr.push({ ...doc.data(), id: doc.id })        
+            })
         // }
+        setDisplay(arr) 
     }
 
     useEffect(()=>{
         async function fetchData(){
             let arr1=[]
             let first
-            if(size){
+            // if(size){
                 if(page===1){
                     first = query(collection(db, "blog"), orderBy('title'),limit(len));
                 }else{
@@ -63,20 +61,15 @@ const FirebasePagination = ({setModal,size}) => {
                 }else{
                     paginateFunc("prev")
                 }
-            }else{
-                setDisplay([])
-            }
+            // }else{
+            //     setDisplay([])
+            // }
         }
         fetchData()
     },[size])
 
-    if(size){
-        if(loading){
-            return <div>
-                <CircularIndeterminate />
-                <h1 className={styles.loading}>Loading .....</h1>
-            </div>
-        }
+    if(size && loading){
+        return <CircularIndeterminate className={styles.loading}/>
     }
 
     if(!display.length){
@@ -89,8 +82,8 @@ const FirebasePagination = ({setModal,size}) => {
     return (
         <div>
             <div className={styles.result}>
-                {display.map((item)=>{
-                    return <Card item={item} setModal={setModal} key={item.imageName}/>
+                {display.map((item,index)=>{
+                    return <Card item={item} setModal={setModal} key={item.id}/>
                 })}
             </div>
             <div className={styles.paginate}>

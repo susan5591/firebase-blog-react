@@ -2,7 +2,7 @@ import { deleteObject, getDownloadURL,ref, uploadBytesResumable} from 'firebase/
 import { storage } from '../config'
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import { db } from '../config'
-import { UPDATE_DOC } from './ActionType'
+import { RESET, UPDATE_DOC } from './ActionType'
 
 export const upload=(state,dispatch,files,navigate,setProgress)=>{
   const date= new Date()
@@ -29,12 +29,12 @@ export const upload=(state,dispatch,files,navigate,setProgress)=>{
             }
             if(!state.edit){
               addDoc(collection(db,'blog'),data)
-              .then(()=>{navigate('/list')})
+              .then(()=>(dispatch({type:RESET}),navigate('/list')))
               .catch(()=>console.log("Error While Uploading."))
             }else{
               setDoc(doc(db,"blog",state.id),data)
               .then(()=>(
-                dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),
+                dispatch({type:RESET}),
                 deleteObject(deleteRef)
                   .then(() => console.log("Deleted"))
                   .catch((err) => console.log(err)),
@@ -53,7 +53,7 @@ export const upload=(state,dispatch,files,navigate,setProgress)=>{
           imageUrl:'',
           imageName:''
         })
-        .then(()=>navigate('/list'))
+        .then(()=>(dispatch({type:RESET}),navigate('/list')))
         .catch(()=>console.log("Error While Uploading."))
       }else{
         setDoc(doc(db,"blog",state.id),{
@@ -62,7 +62,7 @@ export const upload=(state,dispatch,files,navigate,setProgress)=>{
           imageName:state.data.imageName
         })
         .then(()=>(
-          dispatch({type:UPDATE_DOC,payload:{edit:false,id:''}}),
+          dispatch({type:RESET}),
           navigate('/list'))
         )
         .catch(()=>console.log("Error While Updating."))

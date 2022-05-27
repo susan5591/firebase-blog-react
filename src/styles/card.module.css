@@ -51,3 +51,7 @@
 .details{
     background-color: rgb(24, 185, 24);
 }
+
+.par{
+    overflow-wrap: break-word;
+}

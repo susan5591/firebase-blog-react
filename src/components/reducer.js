@@ -12,16 +12,6 @@ const reducer = (state, action) => {
           [action.payload.name]: action.payload.value,
         },
       };
-        
-    case type.UPDATE_DOC:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          edit: action.payload.edit,
-          id: action.payload.id,
-        },
-      };
 
     case type.SETDATA:  
       return {
@@ -35,7 +25,10 @@ const reducer = (state, action) => {
       };
 
       case type.RESET:
-        return initialState
+        return {
+          ...state,
+          ...initialState
+        }
       
       case type.HANDLE_ERROR:
         return{
