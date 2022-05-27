@@ -19,19 +19,21 @@ const FirebasePagination = ({setModal,size}) => {
         const lastVisible = documents.docs[documents.docs.length-1];
         let lastBack = documents.docs[0];
         let queryData
-        if(type==='prev'){
-            queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
-            setPage(prev=>prev-1)
+        if(display.length){    
+            if(type==='prev'){
+                queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
+                setPage(prev=>prev-1)
+            }
+            else if(type==='next'){
+                queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
+                setPage(prev=>prev+1)
+            }
+            const final = await getDocs(queryData)
+            setDocuments(final)
+            final.forEach((doc)=>{
+                arr.push({ ...doc.data(), id: doc.id })        
+            })
         }
-        else if(type==='next'){
-            queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
-            setPage(prev=>prev+1)
-        }
-        const final = await getDocs(queryData)
-        setDocuments(final)
-        final.forEach((doc)=>{
-            arr.push({ ...doc.data(), id: doc.id })        
-        })
         setDisplay(arr) 
     }
 
@@ -40,18 +42,20 @@ const FirebasePagination = ({setModal,size}) => {
             console.log(page)
             let arr1=[]
             let first
-            if(page===1){
-                first = query(collection(db, "blog"), orderBy('title'),limit(len));
-            }else{
-                const lastVisible = documents.docs[0];
-                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
+            if(size){
+                if(page===1){
+                    first = query(collection(db, "blog"), orderBy('title'),limit(len));
+                }else{
+                    const lastVisible = documents.docs[0];
+                    first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
+                }
+                const documentSnapshots = await getDocs(first);
+                setDocuments(documentSnapshots)
+                documentSnapshots.forEach((doc)=>{
+                    arr1.push({ ...doc.data(), id: doc.id })
+                })
+                setLoading(false)
             }
-            const documentSnapshots = await getDocs(first);
-            setDocuments(documentSnapshots)
-            documentSnapshots.forEach((doc)=>{
-                arr1.push({ ...doc.data(), id: doc.id })
-            })
-            setLoading(false)
             if(arr1.length){
                 setDisplay(arr1)
             }else{
@@ -60,13 +64,17 @@ const FirebasePagination = ({setModal,size}) => {
         }
         fetchData()
     },[size])
+    console.log(display.length)
 
-    if(loading){
-        return <div>
+    if(size){
+        if(loading){
+            return <div>
                 <CircularIndeterminate />
                 <h1 className={styles.loading}>Loading .....</h1>
             </div>
+        }
     }
+
     if(!display.length){
         return <div>
             <h1 className={styles.loading}>Nothing to show here</h1>

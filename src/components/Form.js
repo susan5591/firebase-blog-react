@@ -12,7 +12,7 @@ import { checkErrors, validateFormField } from "./Validation";
 import LinearProgressWithLabel from "./Progress";
 
 const Form = () => {
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState('');
   const navigate = useNavigate();
   const { state, dispatch,setPage } = useContext(AppProvider);
   const [isFirst, setIsFirst] = useState(true);
@@ -25,7 +25,10 @@ const Form = () => {
   var date = monthNames[today.getMonth()] + "  " + today.getDate() + ", " + today.getFullYear();
 
   const handleFileChange = (e) => {
+    // const { name, value } = e.target;
     setFiles(e.target.files[0]);
+    // const errorAfterChange = !isFirst? validateFormField({ [name]: value }): {};
+    // dispatch({type: HANDLE_ERROR,payload: errorAfterChange,});
   };
 
   const handleChange = (e) => {
@@ -39,6 +42,7 @@ const Form = () => {
     e.preventDefault();
     const { title, subTitle, descriptions } = state.data;
     setIsFirst(false);
+    // const errors = validateFormField({ title, subTitle, descriptions,files });
     const errors = validateFormField({ title, subTitle, descriptions });
 
     if (checkErrors(errors)) {
@@ -52,6 +56,7 @@ const Form = () => {
     dispatch({type: HANDLE_ERROR, payload: errors});
   };
 
+  console.log(state.err)
   return (
     <div>
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -99,8 +104,10 @@ const Form = () => {
         )}
         <input
           type="file"
+          // name="files"
           className={styles.file}
           onChange={handleFileChange}
+          // validator={["required"]}
         />
 
         <button className={styles.button}>

@@ -23,8 +23,8 @@ const Search = ({ data }) => {
             result.map((item) => {
                 return <Card item={item} setModal={setModal} key={item.id} />;
             })) 
-            : (<h1 className={styles.loading}>No such match found</h1>
-            ))}
+            : <h1 className={styles.loading}>No such match found</h1>
+            )}
       </div>
     </div>
   );
