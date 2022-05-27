@@ -6,7 +6,6 @@ import { upload } from "../components/upload";
 import user from '../user.jpg'
 import {
   HANDLE_CHANGE,
-  RESET,
   HANDLE_ERROR,
 } from "../components/ActionType";
 import { checkErrors, validateFormField } from "./Validation";
@@ -53,7 +52,6 @@ const Form = () => {
       setIsFirst(true)
       setPage(1)
       setFiles('')
-      // setFiled('')
     }
     dispatch({type: HANDLE_ERROR, payload: errors});
   };
