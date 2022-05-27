@@ -5,8 +5,10 @@ import Card from './Card';
 import styles from '../styles/search.module.css'
 import { AppProvider } from '../context';
 import CircularIndeterminate from './Loading';
+import { useNavigate } from 'react-router-dom';
 
 const FirebasePagination = ({setModal,size}) => {
+    const navigate = useNavigate()
     const {documents,setDocuments,page,setPage} = useContext(AppProvider)
     const [display,setDisplay] = useState([])
     const [loading,setLoading] = useState(true)
@@ -16,30 +18,31 @@ const FirebasePagination = ({setModal,size}) => {
     //mix optimized
     const paginateFunc = async(type) =>{
         let arr=[]
-        const lastVisible = documents.docs[documents.docs.length-1];
-        let lastBack = documents.docs[0];
-        let queryData
-        if(display.length){    
-            if(type==='prev'){
-                queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
-                setPage(prev=>prev-1)
+        // if(size){
+            const lastVisible = documents.docs[documents.docs.length-1];
+            let lastBack = documents.docs[0];
+            let queryData
+            if(display.length){    
+                if(type==='prev'){
+                    queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
+                    setPage(prev=>prev-1)
+                }
+                else if(type==='next'){
+                    queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
+                    setPage(prev=>prev+1)
+                }
+                const final = await getDocs(queryData)
+                setDocuments(final)
+                final.forEach((doc)=>{
+                    arr.push({ ...doc.data(), id: doc.id })        
+                })
             }
-            else if(type==='next'){
-                queryData =  query(collection(db, "blog"),orderBy('title'),startAfter(lastVisible),limit(len));
-                setPage(prev=>prev+1)
-            }
-            const final = await getDocs(queryData)
-            setDocuments(final)
-            final.forEach((doc)=>{
-                arr.push({ ...doc.data(), id: doc.id })        
-            })
-        }
-        setDisplay(arr) 
+            setDisplay(arr) 
+        // }
     }
 
     useEffect(()=>{
         async function fetchData(){
-            console.log(page)
             let arr1=[]
             let first
             if(size){
@@ -55,16 +58,17 @@ const FirebasePagination = ({setModal,size}) => {
                     arr1.push({ ...doc.data(), id: doc.id })
                 })
                 setLoading(false)
-            }
-            if(arr1.length){
-                setDisplay(arr1)
+                if(arr1.length){
+                    setDisplay(arr1)
+                }else{
+                    paginateFunc("prev")
+                }
             }else{
-                paginateFunc("prev")
+                setDisplay([])
             }
         }
         fetchData()
     },[size])
-    console.log(display.length)
 
     if(size){
         if(loading){
@@ -78,7 +82,7 @@ const FirebasePagination = ({setModal,size}) => {
     if(!display.length){
         return <div>
             <h1 className={styles.loading}>Nothing to show here</h1>
-            <h1 className={styles.loading}>Add some blog</h1>
+            <button className={styles.loadingButton} onClick={()=>navigate('/')}>Create blog</button>
         </div>
     }
 

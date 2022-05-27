@@ -56,7 +56,6 @@ const Form = () => {
     dispatch({type: HANDLE_ERROR, payload: errors});
   };
 
-  console.log(state.err)
   return (
     <div>
       <form className={styles.form} onSubmit={handleSubmit}>

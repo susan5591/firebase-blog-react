@@ -9,12 +9,10 @@ const Update = () => {
     const {state,dispatch,datas} = useContext(AppProvider)
     
     useEffect(()=>{
-        if(datas.length>0){
-          const result = datas.find((item)=>item.id===id)
-          console.log(result)
-          dispatch({type:SETDATA,payload:{id,result}})
-        }
-
+      if(datas.length>0){
+        const result = datas.find((item)=>item.id===id)
+        dispatch({type:SETDATA,payload:{id,result}})
+      }
       return(()=>{
         dispatch({type:RESET})
       })

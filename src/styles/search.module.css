@@ -3,15 +3,16 @@
     margin: 2rem auto;
     text-align: center;
     position: relative;
-    
 }
+
 .searchIcon{
-    position: absolute;
-    top: 14px;
-    right: 115px;
+    position: relative;
+    top: 4px;
+    right: 38px;
     font-size: 1.3rem;
-    color: green;
+    color: rgb(26, 152, 26);
 }
+
 .search input{
     line-height: 2rem;
     padding: 5px;
@@ -56,4 +57,17 @@
 .loading{
     text-align: center;
     margin: 0 auto;
+}
+
+.loadingButton{
+    display: block;
+    margin: auto;
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+    padding: 10px 25px;
+    background-color: rgb(65, 213, 65);
+    border-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 0 20px gray;
+    font-weight: 600;
 }
