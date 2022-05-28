@@ -21,7 +21,7 @@ const FirebasePagination = ({setModal,size}) => {
         const lastVisible = documents.docs[documents.docs.length-1];
         let lastBack = documents.docs[0];
         let queryData
-        // if(display.length){    
+        if(display.length){    
             if(type==='prev'){
                 queryData =  query(collection(db, "blog"),orderBy('title'),endBefore(lastBack),limitToLast(len));
                 setPage(prev=>prev-1)
@@ -35,7 +35,7 @@ const FirebasePagination = ({setModal,size}) => {
             final.forEach((doc)=>{
                 arr.push({ ...doc.data(), id: doc.id })        
             })
-        // }
+        }
         setDisplay(arr) 
     }
 
@@ -43,7 +43,7 @@ const FirebasePagination = ({setModal,size}) => {
         async function fetchData(){
             let arr1=[]
             let first
-            // if(size){
+            if(size){
                 if(page===1){
                     first = query(collection(db, "blog"), orderBy('title'),limit(len));
                 }else{
@@ -61,9 +61,9 @@ const FirebasePagination = ({setModal,size}) => {
                 }else{
                     paginateFunc("prev")
                 }
-            // }else{
-            //     setDisplay([])
-            // }
+            }else{
+                setDisplay([])
+            }
         }
         fetchData()
     },[size])
