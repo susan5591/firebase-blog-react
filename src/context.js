@@ -16,8 +16,7 @@ export const initialState = {
   err:{
     title:'',
     subTitle:'',
-    descriptions:'',
-    // files:''
+    descriptions:''
   },
   id:'',
   edit:false
