@@ -1,4 +1,4 @@
-import React, {  useContext, useEffect,useState } from 'react'
+import React, {  useContext, useEffect,useState ,useCallback} from 'react'
 import { collection, query, orderBy, startAfter, limit, getDocs, endBefore, limitToLast, startAt} from "firebase/firestore";  
 import { db } from '../config';
 import Card from './Card';
@@ -6,7 +6,6 @@ import styles from '../styles/search.module.css'
 import { AppProvider } from '../context';
 import CircularIndeterminate from './Loading';
 import { useNavigate } from 'react-router-dom';
-import { async } from '@firebase/util';
 
 const FirebasePagination = ({setModal,size}) => {
     const navigate = useNavigate()
@@ -40,36 +39,33 @@ const FirebasePagination = ({setModal,size}) => {
         setDisplay(arr) 
     }
 
-    
-
-    const fetchData =async() =>{
-        let arr1=[]
-            let first
-            if(page===1){
-                first = query(collection(db, "blog"), orderBy('title'),limit(len));
-            }else{
-                const lastVisible = documents.docs[0];
-                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
-            }
-            const documentSnapshots = await getDocs(first);
-            setDocuments(documentSnapshots)
-            documentSnapshots.forEach((doc)=>{
-                arr1.push({ ...doc.data(), id: doc.id })
-            })
-            setLoading(false)
-            if(arr1.length){
-                setDisplay(arr1)
-            }else{
-                paginateFunc("prev")
-            }
-        }
-
     useEffect(()=>{
-        if(size){
-            fetchData()
-        }else{
-            setDisplay([])
+        const fetchData =async() =>{
+            if(size){
+                let arr1=[]
+                let first
+                if(page===1){
+                    first = query(collection(db, "blog"), orderBy('title'),limit(len));
+                }else{
+                    const lastVisible = documents.docs[0];
+                    first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
+                }
+                const documentSnapshots = await getDocs(first);
+                setDocuments(documentSnapshots)
+                documentSnapshots.forEach((doc)=>{
+                    arr1.push({ ...doc.data(), id: doc.id })
+                })
+                setLoading(false)
+                if(arr1.length){
+                    setDisplay(arr1)
+                }else{
+                    paginateFunc("prev")
+                }
+            }else{
+                setDisplay([])
+            }
         }
+        fetchData()
     },[size])
 
     if(size && loading){
