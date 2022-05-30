@@ -16,7 +16,8 @@ const FirebasePagination = ({setModal,size}) => {
     let totalPages = Math.ceil(size/len)
 
     //mix optimized
-    const paginateFunc = async(type) =>{
+    const paginateFunc = useCallback(async(type) =>{
+        console.log('i ma clicked')
         let arr=[]
         const lastVisible = documents.docs[documents.docs.length-1];
         let lastBack = documents.docs[0];
@@ -37,36 +38,65 @@ const FirebasePagination = ({setModal,size}) => {
             })
         }
         setDisplay(arr) 
-    }
+    },[display.length, documents.docs, setDocuments, setPage])
+
+    console.log('rendring')
+
+    const fetchData =useCallback(async() =>{
+        if(size){
+            let arr1=[]
+            let first
+            if(page===1){
+                first = query(collection(db, "blog"), orderBy('title'),limit(len));
+            }else{
+                const lastVisible = documents.docs[0];
+                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
+            }
+            const documentSnapshots = await getDocs(first);
+            setDocuments(documentSnapshots)
+            documentSnapshots.forEach((doc)=>{
+                arr1.push({ ...doc.data(), id: doc.id })
+            })
+            setLoading(false)
+            if(arr1.length){
+                setDisplay(arr1)
+            }else{
+                paginateFunc("prev")
+            }
+        }else{
+            setDisplay([])
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[size])
 
     useEffect(()=>{
-        const fetchData =async() =>{
-            if(size){
-                let arr1=[]
-                let first
-                if(page===1){
-                    first = query(collection(db, "blog"), orderBy('title'),limit(len));
-                }else{
-                    const lastVisible = documents.docs[0];
-                    first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
-                }
-                const documentSnapshots = await getDocs(first);
-                setDocuments(documentSnapshots)
-                documentSnapshots.forEach((doc)=>{
-                    arr1.push({ ...doc.data(), id: doc.id })
-                })
-                setLoading(false)
-                if(arr1.length){
-                    setDisplay(arr1)
-                }else{
-                    paginateFunc("prev")
-                }
-            }else{
-                setDisplay([])
-            }
-        }
+        // const fetchData =async() =>{
+        //     if(size){
+        //         let arr1=[]
+        //         let first
+        //         if(page===1){
+        //             first = query(collection(db, "blog"), orderBy('title'),limit(len));
+        //         }else{
+        //             const lastVisible = documents.docs[0];
+        //             first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
+        //         }
+        //         const documentSnapshots = await getDocs(first);
+        //         setDocuments(documentSnapshots)
+        //         documentSnapshots.forEach((doc)=>{
+        //             arr1.push({ ...doc.data(), id: doc.id })
+        //         })
+        //         setLoading(false)
+        //         if(arr1.length){
+        //             setDisplay(arr1)
+        //         }else{
+        //             paginateFunc("prev",documents)
+        //         }
+        //     }else{
+        //         setDisplay([])
+        //     }
+        // }
         fetchData()
-    },[size])
+    },[fetchData])
 
     if(size && loading){
         return <CircularIndeterminate className={styles.loading}/>
