@@ -39,32 +39,32 @@ const FirebasePagination = ({setModal,size}) => {
         setDisplay(arr) 
     }
 
-    useEffect(()=>{
-        async function fetchData(){
-            let arr1=[]
-            let first
-            if(size){
-                if(page===1){
-                    first = query(collection(db, "blog"), orderBy('title'),limit(len));
-                }else{
-                    const lastVisible = documents.docs[0];
-                    first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
-                }
-                const documentSnapshots = await getDocs(first);
-                setDocuments(documentSnapshots)
-                documentSnapshots.forEach((doc)=>{
-                    arr1.push({ ...doc.data(), id: doc.id })
-                })
-                setLoading(false)
-                if(arr1.length){
-                    setDisplay(arr1)
-                }else{
-                    paginateFunc("prev")
-                }
+    async function fetchData(){
+        let arr1=[]
+        let first
+        if(size){
+            if(page===1){
+                first = query(collection(db, "blog"), orderBy('title'),limit(len));
             }else{
-                setDisplay([])
+                const lastVisible = documents.docs[0];
+                first = query(collection(db, "blog"), orderBy('title'),startAt(lastVisible), limit(len));
             }
+            const documentSnapshots = await getDocs(first);
+            setDocuments(documentSnapshots)
+            documentSnapshots.forEach((doc)=>{
+                arr1.push({ ...doc.data(), id: doc.id })
+            })
+            setLoading(false)
+            if(arr1.length){
+                setDisplay(arr1)
+            }else{
+                paginateFunc("prev")
+            }
+        }else{
+            setDisplay([])
         }
+    }
+    useEffect(()=>{
         fetchData()
     },[size])
 
