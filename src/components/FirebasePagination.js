@@ -6,6 +6,7 @@ import styles from '../styles/search.module.css'
 import { AppProvider } from '../context';
 import CircularIndeterminate from './Loading';
 import { useNavigate } from 'react-router-dom';
+import { async } from '@firebase/util';
 
 const FirebasePagination = ({setModal,size}) => {
     const navigate = useNavigate()
@@ -39,10 +40,11 @@ const FirebasePagination = ({setModal,size}) => {
         setDisplay(arr) 
     }
 
-    async function fetchData(){
+    
+
+    const fetchData =async() =>{
         let arr1=[]
-        let first
-        if(size){
+            let first
             if(page===1){
                 first = query(collection(db, "blog"), orderBy('title'),limit(len));
             }else{
@@ -60,12 +62,14 @@ const FirebasePagination = ({setModal,size}) => {
             }else{
                 paginateFunc("prev")
             }
+        }
+
+    useEffect(()=>{
+        if(size){
+            fetchData()
         }else{
             setDisplay([])
         }
-    }
-    useEffect(()=>{
-        fetchData()
     },[size])
 
     if(size && loading){
