@@ -28,7 +28,7 @@ const AppContext = ({ children }) => {
   const [size,setSize] = useState(0)
   const [page,setPage] = useState(1)
   
-  const getData = useCallback(
+  const getData = 
     () =>
       onSnapshot(collection(db, "blog"), (querySnapShot) => {
         setSize(querySnapShot.size)
@@ -37,13 +37,11 @@ const AppContext = ({ children }) => {
           arr.push({ ...doc.data(), id: doc.id });
         });
         setDatas(arr)
-      }),
-    []
-  );
+      })
 
   useEffect(() => {
     getData();
-  }, [getData]);
+  }, []);
 
   return (
     <AppProvider.Provider
