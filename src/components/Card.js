@@ -19,7 +19,7 @@ const Card = ({item,setModal}) => {
             <div className={styles.cardContent}>
                 <div className={styles.top}>
                     <div className={styles.images}>
-                        <img src={item.imageUrl?item.imageUrl:user} alt="image"/>
+                        <img src={item.imageUrl?item.imageUrl:user} alt=""/>
                     </div>
                     <h3>{item.title}</h3>
                     <p className={styles.par}>

@@ -57,7 +57,7 @@ const Form = () => {
     if(isFirst){
       dispatch({type:RESET})
     }
-  },[isFirst])
+  },[isFirst,dispatch])
 
   return (
     <div>

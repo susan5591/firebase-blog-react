@@ -16,7 +16,7 @@ const Update = () => {
       return(()=>{
         dispatch({type:RESET})
       })
-    },[id,datas])
+    },[id,datas,dispatch])
 
   return (
     <div>

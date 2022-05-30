@@ -22,7 +22,7 @@ const Details = () => {
         <p>{result.uploadedTime}</p>
       </div>
       <div className={styles.imageSection}>
-        <img src={result.imageUrl?result.imageUrl:user} alt='image'/>
+        <img src={result.imageUrl?result.imageUrl:user} alt=''/>
       </div>
       <div >
         <h1 className={styles.header}>{result.title}</h1>
