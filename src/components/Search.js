@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 
 const Search = ({ data }) => {
   const { search, setSearch, setModal, datas } = data;
-  const result = datas.filter((item) => item.title.includes(search.toLowerCase()));
+  const result = datas.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div>
